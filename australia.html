@@ -94,9 +94,9 @@
             
 //       Uploading Shapefile of India Outline Map
            
-            var chinaOutline = new L.GeoJSON.AJAX("/shapefile/australiaoutline.geojson");  
+            var australiaOutline = new L.GeoJSON.AJAX("/shapefile/australiaoutline.geojson");  
              
-            chinaOutline.addTo(map);
+            australiaOutline.addTo(map);
 
             var kmlLayer = new L.KML("/forecast/australia/totalprecip/2023040400/wrf_precslpwind.kml", {async: true});
 
