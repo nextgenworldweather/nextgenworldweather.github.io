@@ -323,6 +323,77 @@ li.fslide {
     visibility: hidden;
 }
 
+.rlegendContainer {
+    display: inline-block;
+    position: absolute;
+    text-align: left;
+    left: 8.5%;
+    top: 1%;
+    padding: 0% ;
+    margin: 0%;
+    opacity: 0.75;
+    width: 83%;
+    background: white;
+    z-index: 900;
+    border-style: none;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-top-right-radius: 12.5px;
+    border-top-left-radius: 12.5px;
+    border-right: 0.25vw  solid rgb(236, 236, 51);
+    border-bottom: 0.25vw  solid rgb(245, 62, 62);
+    border-left: 0.25vw  solid rgb(8, 148, 230);
+    border-top: 0.25vw solid rgb(30, 173, 25);
+}
+
+.rlegendContainer .legendTitle {
+    width: 100%;
+    text-align: left;
+    left: 60%;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 90%;
+}
+
+.rlegendContainer .legendScale ul {
+    margin: 0;
+    width: 100%;
+    padding: 10px;
+    float: left;
+    list-style: none;
+}
+
+.rlegendContainer .legendScale ul li {
+    display: inline-block;
+    float: left;
+    width: 14%;
+    margin-bottom: 0px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+}
+
+.rlegendLabel b {
+    text-align: center;
+    font-size: 2vh;
+}
+
+ul.rlegendLabel {
+    display: inline-block;
+    float: left;
+    height: 5%;
+    width: 100%;
+}
+
+.rlegendContainer li span {
+    display: inline-block;
+    float: left;
+    height: 15px;
+    width: 100%;
+    text-align: center;
+    word-wrap: break-word;
+}
+
 .legendContainer {
     display: inline-block;
     position: absolute;
@@ -366,7 +437,7 @@ li.fslide {
 .legendContainer .legendScale ul li {
     display: inline-block;
     float: left;
-    width: 14%;
+    width: 3.28%;
     margin-bottom: 0px;
     text-align: center;
     font-size: 80%;
