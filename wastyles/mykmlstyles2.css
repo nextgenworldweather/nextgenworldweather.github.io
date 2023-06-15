@@ -346,7 +346,7 @@ li.fslide {
     border-top: 0.25vw solid rgb(30, 173, 25);
 }
 
-.rlegendContainer .legendTitle {
+.rlegendContainer .rlegendTitle {
     width: 100%;
     text-align: left;
     left: 60%;
@@ -363,7 +363,7 @@ li.fslide {
     list-style: none;
 }
 
-.rlegendContainer .legendScale ul li {
+.rlegendContainer .rlegendScale ul li {
     display: inline-block;
     float: left;
     width: 14%;
