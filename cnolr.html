@@ -8,8 +8,8 @@
        <meta charset="utf-8" />
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-       <link rel="stylesheet" href="styles/leaflet.css" />
-       <link rel="stylesheet" href="styles/mykmlstyles.css" />
+      <link rel="stylesheet" href="styles/leaflet.css" />
+       <link rel="stylesheet" href="wastyles/mykmlstyles2.css" />
        
        <script src="js/leaflet.js"></script>
        
@@ -94,7 +94,7 @@
              
             chinaOutline.addTo(map);
 
-            var kmlLayer = new L.KML("/forecast/india/olr/2023051100/wrf_olr.kml", {async: true});
+            var kmlLayer = new L.KML("/forecast/india/olr/2023061500/wrf_olr.kml", {async: true});
 
             var mapKmlLayer = map.addLayer(kmlLayer);
 
