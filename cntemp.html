@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
       <link rel="stylesheet" href="styles/leaflet.css" />
-      <link rel="stylesheet" href="styles/mykmlstyles.css" />
+      <link rel="stylesheet" href="wastyles/mykmlstyles2.css" />
       
       <!--[if lte IE 8]><link rel="stylesheet" href="leaflet/leaflet.ie.css" /><![endif]-->
       
@@ -126,7 +126,7 @@
       map.attributionControl.setPrefix(''); 
                     
 // files/kml/wrf_rainfall_201908070600.kml                          
-            var kmlLayer = new L.KML("/forecast/china/temp/2023040300/wrf_temp.kml", {async: true});
+            var kmlLayer = new L.KML("/forecast/china/temp/2023061500/wrf_temp.kml", {async: true});
 //          var kmlLayer = new L.KML("/forecast/india/temp/2022112900/wrf_temp2m.kml", {async: true});
 
             var mapKmlLayer = map.addLayer(kmlLayer);
