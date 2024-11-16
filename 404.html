@@ -6,11 +6,10 @@
     <title>404 - Page Not Found | Eastwind Consult</title>
     <style>
         :root {
-            /* Colors from 404version1 */
-            --primary: #e74c3c; /* Red */
-            --secondary: #f1c40f; /* Yellow */
-            --accent: #3498db; /* Blue */
-            --success: #2ecc71; /* Green */
+            --primary: #e74c3c; 
+            --secondary: #f1c40f; 
+            --accent: #3498db; 
+            --success: #2ecc71; 
             --background: #f8fafc;
             --text: #2d3748;
             --gray-100: #f1f5f9;
@@ -22,6 +21,10 @@
             --gray-700: #334155;
             --gray-800: #1e293b;
             --gray-900: #0f172a;
+            --red: var(--primary);
+            --yellow: var(--secondary);
+            --blue: var(--accent);
+            --green: var(--success);
         }
 
         * {
@@ -40,7 +43,6 @@
             overflow-x: hidden;
         }
 
-        /* Enhanced Header */
         .header {
             background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--success));
             padding: 1.5rem;
@@ -135,7 +137,7 @@
             font-size: 1.2rem;
             color: var(--gray-600);
             max-width: 600px;
-            margin: 0 auto 2.5rem;
+            margin: 0 auto 1.25rem;
             line-height: 1.6;
         }
 
@@ -148,6 +150,7 @@
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
+            margin-bottom: 2.5em;
             font-size: 1.1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
@@ -177,7 +180,7 @@
         }
 
         .popular-sections {
-            
+            margin-top: 3rem;
             text-align: center;
             width: 100%;
             max-width: 800px;
@@ -185,8 +188,7 @@
             margin: 0 auto;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            background: linear-gradient(135deg, var(--red), var(--yellow), var(--blue), var(--green));
-            color: white;
+            background: white; 
         }
 
         .section-title {
@@ -197,21 +199,20 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             position: relative;
-            display: inline-block;
-            left: 17.5%;
-            transform: translateX(-50%);
+            display: block;      
         }
 
         .section-title::after {
             content: '';
-            position: relative;
+            position: absolute; 
             bottom: -10px;
-            left: 17.5%;
+            left: 50%; 
             transform: translateX(-50%);
             width: 50px;
             height: 4px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 2px;
+            display: block; 
         }
 
         .center {
@@ -229,8 +230,6 @@
             background: white;
             padding: 1.5rem;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
             text-decoration: none;
             color: var(--gray-800);
             display: flex;
@@ -239,6 +238,24 @@
             gap: 1rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .forecast-card:nth-child(1) {
+            border-top: 4px solid var(--primary);
+        }
+
+        .forecast-card:nth-child(2) {
+            border-top: 4px solid var(--secondary);
+        }
+
+        .forecast-card:nth-child(3) {
+            border-top: 4px solid var(--accent);
+        }
+
+        .forecast-card:nth-child(4) {
+            border-top: 4px solid var(--success);
         }
 
         .forecast-card::before {
@@ -278,7 +295,6 @@
             color: var(--gray-700);
         }
 
-        /* Enhanced Footer */
         .footer {
             text-align: center;
             padding: 3rem 2rem;
@@ -358,11 +374,13 @@
     </header>
 
     <main class="main-content">
-        <h1 class="error-code">404</h1>
-        <h2 class="error-message">Page Not Found</h2>
-        <p class="error-description">
-            Oops! The weather forecast you're looking for is currently unavailable. Check out our popular forecast links below.
-        </p>
+        <div class="error-container">
+            <h1 class="error-code">404</h1>
+            <h2 class="error-message">Page Not Found</h2>
+            <p class="error-description">
+                Oops! The weather forecast you're looking for is currently unavailable. Check out our popular forecast links below.
+            </p>
+        </div>
 
         <a href="/" class="home-button">Return to Homepage</a>
 
@@ -387,15 +405,16 @@
                 </a>
             </div>
         </section>
-
     </main>
 
     <footer class="footer">
-        <div>© 2024 Eastwind Consult. Professional Weather Forecasting.</div>
-        <div class="contact">
-            <a href="mailto:eastwindconsultintl@gmail.com">eastwindconsultintl@gmail.com</a> |
-            <a href="mailto:pnunekpeku5@gmail.com">pnunekpeku5@gmail.com</a> |
-            <a href="https://web.facebook.com/eastwindconsult" target="_blank" rel="noopener">Facebook</a>
+        <div class="footer-content">
+            <div class="footer-main">© 2024 Eastwind Consult. Professional Weather Forecasting.</div>
+            <div class="contact">
+                <a href="mailto:eastwindconsultintl@gmail.com">eastwindconsultintl@gmail.com</a>
+                <a href="mailto:pnunekpeku5@gmail.com">pnunekpeku5@gmail.com</a>
+                <a href="https://web.facebook.com/eastwindconsult" target="_blank" rel="noopener">Facebook</a>
+            </div>
         </div>
     </footer>
 </body>
