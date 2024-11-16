@@ -1,0 +1,216 @@
+<!-- This is written by Peter Nunekpeku | pnunekpeku5@gmail.com | eastwindconsultintl@gmail.com -->        
+<!--  modified 2024-11-16 0000 UTC  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eastwind Consult - Weather Forecast</title>
+    <style>
+        :root {
+            --red: #e74c3c;
+            --yellow: #f1c40f;
+            --blue: #3498db;
+            --green: #2ecc71;
+            --red-dark: #c0392b;
+            --yellow-dark: #f39c12;
+            --blue-dark: #2980b9;
+            --green-dark: #27ae60;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, var(--red), var(--yellow), var(--blue), var(--green));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .company-name {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .region-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .region-card:nth-child(1) {
+            border-top: 5px solid var(--red);
+        }
+
+        .region-card:nth-child(2) {
+            border-top: 5px solid var(--yellow);
+        }
+
+        .region-card:nth-child(3) {
+            border-top: 5px solid var(--blue);
+        }
+
+        .region-card:nth-child(4) {
+            border-top: 5px solid var(--green);
+        }
+
+        .region-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .region-card:nth-child(1) .region-title {
+            color: var(--red-dark);
+            border-bottom: 2px solid var(--red);
+        }
+
+        .region-card:nth-child(2) .region-title {
+            color: var(--yellow-dark);
+            border-bottom: 2px solid var(--yellow);
+        }
+
+        .region-card:nth-child(3) .region-title {
+            color: var(--blue-dark);
+            border-bottom: 2px solid var(--blue);
+        }
+
+        .region-card:nth-child(4) .region-title {
+            color: var(--green-dark);
+            border-bottom: 2px solid var(--green);
+        }
+
+        .region-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .forecast-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .forecast-links li {
+            margin: 0.8rem 0;
+        }
+
+        .region-card:nth-child(1) .forecast-links a:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--red-dark);
+        }
+
+        .region-card:nth-child(2) .forecast-links a:hover {
+            background-color: rgba(241, 196, 15, 0.1);
+            color: var(--yellow-dark);
+        }
+
+        .region-card:nth-child(3) .forecast-links a:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--blue-dark);
+        }
+
+        .region-card:nth-child(4) .forecast-links a:hover {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--green-dark);
+        }
+
+        .forecast-links a {
+            color: #555;
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .region-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .company-name {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="company-name">Eastwind Consult</h1>
+        <p class="subtitle">Professional Weather Forecasting</p>
+    </header>
+
+    <main class="main-content">
+        <div class="region-grid">
+            <div class="region-card">
+                <h2 class="region-title">Australia</h2>
+                <ul class="forecast-links">
+                    <li><a href="audbz.html">Reflectivity Forecast</a></li>
+                    <li><a href="auolr.html">Outgoing Long-wave Radiation</a></li>
+                    <li><a href="australia.html">Rainfall Forecast</a></li>
+                    <li><a href="autemp.html">Temperature Forecast</a></li>
+                </ul>
+            </div>
+
+            <div class="region-card">
+                <h2 class="region-title">China</h2>
+                <ul class="forecast-links">
+                    <li><a href="cndbz.html">Reflectivity Forecast</a></li>
+                    <li><a href="cnolr.html">Outgoing Long-wave Radiation</a></li>
+                    <li><a href="china.html">Rainfall Forecast</a></li>
+                    <li><a href="cntemp.html">Temperature Forecast</a></li>
+                </ul>
+            </div>
+
+            <div class="region-card">
+                <h2 class="region-title">India</h2>
+                <ul class="forecast-links">
+                    <li><a href="indbz.html">Reflectivity Forecast</a></li>
+                    <li><a href="inolr.html">Outgoing Long-wave Radiation</a></li>
+                    <li><a href="india.html">Rainfall Forecast</a></li>
+                    <li><a href="intemp.html">Temperature Forecast</a></li>
+                </ul>
+            </div>
+
+            <div class="region-card">
+                <h2 class="region-title">West Africa</h2>
+                <ul class="forecast-links">
+                    <li><a href="wadbz.html">Reflectivity Forecast</a></li>
+                    <li><a href="waolr.html">Outgoing Long-wave Radiation</a></li>
+                    <li><a href="westafrica.html">Rainfall Forecast</a></li>
+                    <li><a href="watemp.html">Temperature Forecast</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
