@@ -40,7 +40,7 @@ The platform utilizes the WRF model, a next-generation mesoscale numerical weath
 ## 🎯 Forecast Parameters  
 
 ### Weather Parameters  
-- **Reflectivity**: Radar reflectivity data showing precipitation intensity and distribution  
+- **Reflectivity**: Reflectivity data for lightning and thunderstorm predictions
 - **Outgoing Long-wave Radiation (OLR)**: Earth's thermal radiation measurements  
 - **Rainfall**: Precipitation forecasts, overlaid with wind direction, speed, and pressure data  
 - **Temperature**: Surface and atmospheric temperature predictions  
