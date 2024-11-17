@@ -206,10 +206,6 @@ body {
     transition: transform 0.2s ease;
 }
 
-.rlegendContainer li span {
-    float: left;
-}
-
 .rlegendScale ul li:hover {
     transform: scale(1.05);
 }
