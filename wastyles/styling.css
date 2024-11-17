@@ -29,7 +29,7 @@ body {
 /* Modern Controls Layout */
 .button.container {
     position: fixed;
-    bottom: 0;
+    bottom: 2rem; /* Increased from 0 to create more space */
     left: 0;
     z-index: 1000;
     width: 100%;
@@ -92,7 +92,7 @@ body {
 /* Modern Record Button */
 #capture {
     position: fixed;
-    bottom: 2rem;
+    bottom: 6rem; /* Increased from 2rem to create more space from controls */
     left: 50%;
     transform: translateX(-50%);
     padding: 0.75rem 1.5rem;
@@ -103,6 +103,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
+    z-index: 1000; /* Ensure it's above the map */
     box-shadow: 
         0 0 0 2px rgba(236, 236, 51, 0.5),
         0 0 0 4px rgba(245, 62, 62, 0.5),
@@ -132,6 +133,48 @@ body {
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     border: none;
     backdrop-filter: blur(5px);
+    z-index: 2000; /* Increased to ensure it's above map layers */
+}
+
+.legend {
+    display: inline-flex;
+    z-index: 2000; /* Increased to ensure it's above map layers */
+    position: fixed; /* Changed to fixed for consistent positioning */
+    top: 16.5%;
+    right: 1rem; /* Changed from left: 92% for better positioning */
+    width: 20%;
+    height: 82%;
+    opacity: 0.85;
+    background-color: transparent;
+    color: black;
+    text-align: center;
+}
+
+.legend img {
+    visibility: visible; /* Changed from hidden to make legend visible */
+    width: 38%;
+    height: 85%;
+    -webkit-tap-highlight-color: transparent;
+    cursor: grab;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: black;
+    text-align: center;
+}
+
+.caption {
+    visibility: visible; /* Changed from hidden to make caption visible */
+    position: absolute;
+    font-size: 1.05rem;
+    left: 0%;
+    top: 42%;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    z-index: 2000; /* Match other legend elements */
 }
 
 .rlegendContainer::before {
@@ -160,6 +203,7 @@ body {
     gap: 0.5rem;
     padding: 0;
     margin: 0;
+    z-index: 2000; /* Ensure legend items are visible */
 }
 
 .rlegendScale ul li {
@@ -213,8 +257,14 @@ body {
     }
 
     #capture {
+        bottom: 5rem; /* Adjusted for mobile */
         font-size: 0.875rem;
         padding: 0.5rem 1rem;
+    }
+
+    .legend {
+        width: 25%; /* Slightly wider on mobile */
+        right: 0.5rem; /* Closer to edge on mobile */
     }
 }
 
