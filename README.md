@@ -36,7 +36,6 @@ The platform utilizes the WRF model, a next-generation mesoscale numerical weath
 - Advanced physics parameterizations  
 - High-resolution terrain and land-use data  
 - Initialization with Global Forecast System (GFS) data for accurate predictions  
-- Community-driven development  
 
 ---
 
@@ -74,7 +73,7 @@ The platform utilizes the WRF model, a next-generation mesoscale numerical weath
 
 **Rainfall with Overlays:**  
 - **Wind Overlay**: barbs represent wind direction and speed.  
-- **Pressure Overlay**: Marks High (H) and Low (L) pressure centers for better synoptic visualization.  
+- **Pressure Overlay**: High (H) and Low (L) pressure centers.  
 
 ---
 
