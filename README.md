@@ -1,4 +1,5 @@
 # Eastwind Consult Weather Forecasting Platform 🌦️  
+
 [![GPL-3.0 License](https://img.shields.io/badge/license-GPL--3.0-blue)](./LICENSE.md)  
 [![GitHub Pages](https://img.shields.io/badge/deployment-GitHub%20Pages-blue)](https://nextgenworldweather.github.io)  
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](https://github.com/nextgenworldweather/nextgenworldweather.github.io/issues)  
@@ -8,6 +9,7 @@ A comprehensive weather forecasting platform that combines the Weather Research 
 ---
 
 ## 📱 Using the Platform
+
 1. Visit [EastwindConsult Weather](https://nextgenworldweather.github.io)
 2. Select your region of interest
 3. Choose from available regions and weather parameters:
@@ -20,6 +22,7 @@ A comprehensive weather forecasting platform that combines the Weather Research 
 ---
 
 ## 🌟 Features  
+
 - Numerical weather predictions using the WRF model  
 - Leaflet integration for interactive map-based forecast displays  
 - Rainfall overlay with wind direction, speed, and pressure data, including High (H) and Low (L) pressure centers  
