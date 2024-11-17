@@ -4,24 +4,7 @@
 [![GitHub Pages](https://img.shields.io/badge/deployment-GitHub%20Pages-blue)](https://nextgenworldweather.github.io)  
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](https://github.com/nextgenworldweather/nextgenworldweather.github.io/issues)  
 
-Eastwind Consult harnesses the power of the Weather Research and Forecasting (WRF) model initialized with Global Forecast System (GFS) data to deliver precise and reliable weather predictions. Our platform provides dynamic visualizations using Leaflet maps with KML overlays, focusing on the regions of Australia, China, India, and West Africa.
-
-Key Features:
-High-Frequency Updates:
-
-Weather forecasts are updated every 15 minutes, ensuring the most current and accurate data.
-
-Detailed Forecasts:
-
-Rainfall predictions are enhanced with overlays showing wind direction, wind speed, atmospheric pressure, and pressure centers (High and Low).
-
-Interactive Visualizations:
-
-Utilizes Leaflet maps with KML overlays to provide an interactive user experience.
-
-Regional Focus:
-
-Tailored forecasting for Australia, China, India, and West Africa, allowing for region-specific weather insights. 
+A comprehensive weather forecasting platform that combines the Weather Research and Forecasting (WRF) model initialized with Global Forecast System (GFS) data. The forecasts are visualized using Leaflet maps with KML overlays for Australia, China, India, and West Africa regions, providing high-frequency updates at 15-minute intervals. Rainfall forecasts are overlaid with wind direction, speed, pressure, and pressure centers (High and Low).
 
 ---
 
