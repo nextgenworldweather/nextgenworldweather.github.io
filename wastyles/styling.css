@@ -89,6 +89,7 @@ body {
 
 #capture {
     position: fixed;
+    float: left;
     bottom: 8rem; 
     left: 2rem;
     transform: translateX(-50%);
