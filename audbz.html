@@ -101,12 +101,12 @@
 
      <script>
 
-             var map = L.map('map').setView([-20.0, 143.0], 4); 
+             var map = L.map('map').setView([-20.0, 132.0], 4); 
                  map.options.minZoom = 4;    
 	               map.options.maxZoom = 6; // Reduce this for free editions                 
              const bounds = [
-			                  [105,-35.0], // SouthWest Coordinates  2.282608,-17.84559
-			                  [160.0,5.0] // NorthEast Coordinates  17.5386,15.44559
+			                  [-50,120.0], // SouthWest Coordinates  2.282608,-17.84559
+			                  [15.0,150.0] // NorthEast Coordinates  17.5386,15.44559
 		                   ];
 
 //        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -127,7 +127,7 @@
 
             var mapKmlLayer = map.addLayer(kmlLayer);
 
-//	          map.setMaxBounds(bounds, {reset: true});
+	          map.setMaxBounds(bounds, {reset: true});
 
      </script>
     <script src="js/mykmlanimation2.js"></script>
