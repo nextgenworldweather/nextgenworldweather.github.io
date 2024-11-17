@@ -208,9 +208,6 @@ body {
 
 .rlegendContainer li span {
     float: left;
-    width: 100%;
-    text-align: center;
-    word-wrap: break-word;
 }
 
 .rlegendScale ul li:hover {
