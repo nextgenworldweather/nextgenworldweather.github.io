@@ -7,6 +7,18 @@ A comprehensive weather forecasting platform that combines the Weather Research 
 
 ---
 
+## 📱 Using the Platform
+1. Visit [EastwindConsult Weather](https://nextgenworldweather.github.io)
+2. Select your region of interest
+3. Choose from available regions and weather parameters:
+   - Reflectivity
+   - Outgoing Long-wave Radiation
+   - Rainfall
+   - Temperature
+4. View the WRF-generated forecast
+
+---
+
 ## 🌟 Features  
 - Numerical weather predictions using the WRF model  
 - Leaflet integration for interactive map-based forecast displays  
