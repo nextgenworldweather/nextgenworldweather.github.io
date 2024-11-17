@@ -1,35 +1,32 @@
-/* Base Styles and Performance Optimizations */
 body {
     margin: 0;
-    opacity: 1; /* Changed from 0 to prevent flash of unstyled content */
+    opacity: 1; 
     transition: opacity 0.3s ease;
 }
 
 #map {
     width: 100%;
-    height: 100vh; /* Using viewport height instead of % for better mobile support */
+    height: 100vh; 
     position: relative;
 }
 
-/* Improved Layer Rendering */
 .leaflet-pane.leaflet-map-pane {
     border: none;
-    will-change: transform; /* Optimization for animations */
+    will-change: transform; 
 }
 
 .leaflet-image-layer.leaflet-zoom-animated {
     background: transparent;
     z-index: 350;
     width: 100%;
-    opacity: 0.75; /* Increased from 0.5 for better visibility */
+    opacity: 0.75; 
     transition: opacity 0.3s ease;
-    backface-visibility: hidden; /* Performance optimization */
+    backface-visibility: hidden; 
 }
 
-/* Modern Controls Layout */
 .button.container {
     position: fixed;
-    bottom: 2rem; /* Increased from 0 to create more space */
+    bottom: 2rem; 
     left: 0;
     z-index: 1000;
     width: 100%;
@@ -41,7 +38,6 @@ body {
     align-items: center;
 }
 
-/* Improved Slides Display */
 #fslides {
     display: flex;
     justify-content: center;
@@ -58,13 +54,12 @@ body {
 
 .fslide {
     display: inline-block;
-    font-size: clamp(0.875rem, 2vw, 1.1rem); /* Responsive font size */
+    font-size: clamp(0.875rem, 2vw, 1.1rem); 
     color: #fff;
     padding: 0.5rem 1rem;
     background: transparent;
 }
 
-/* Enhanced Control Buttons */
 .controls {
     display: inline-flex;
     align-items: center;
@@ -89,10 +84,9 @@ body {
     box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
-/* Modern Record Button */
 #capture {
     position: fixed;
-    bottom: 6rem; /* Increased from 2rem to create more space from controls */
+    bottom: 6rem; 
     left: 50%;
     transform: translateX(-50%);
     padding: 0.75rem 1.5rem;
@@ -103,7 +97,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
-    z-index: 1000; /* Ensure it's above the map */
+    z-index: 1000; 
     box-shadow: 
         0 0 0 2px rgba(236, 236, 51, 0.5),
         0 0 0 4px rgba(245, 62, 62, 0.5),
@@ -120,7 +114,6 @@ body {
         0 0 0 12px rgba(30, 173, 25, 0.6);
 }
 
-/* Improved Legend Container */
 .rlegendContainer {
     position: fixed;
     top: 1rem;
@@ -133,15 +126,15 @@ body {
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     border: none;
     backdrop-filter: blur(5px);
-    z-index: 2000; /* Increased to ensure it's above map layers */
+    z-index: 2000; 
 }
 
 .legend {
     display: inline-flex;
-    z-index: 2000; /* Increased to ensure it's above map layers */
-    position: fixed; /* Changed to fixed for consistent positioning */
+    z-index: 2000; 
+    position: fixed; 
     top: 16.5%;
-    right: 1rem; /* Changed from left: 92% for better positioning */
+    right: 1rem; 
     width: 20%;
     height: 82%;
     opacity: 0.85;
@@ -151,7 +144,7 @@ body {
 }
 
 .legend img {
-    visibility: visible; /* Changed from hidden to make legend visible */
+    visibility: visible; 
     width: 38%;
     height: 85%;
     -webkit-tap-highlight-color: transparent;
@@ -164,7 +157,7 @@ body {
 }
 
 .caption {
-    visibility: visible; /* Changed from hidden to make caption visible */
+    visibility: visible; 
     position: absolute;
     font-size: 1.05rem;
     left: 0%;
@@ -174,7 +167,7 @@ body {
     -ms-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
     transform: rotate(-90deg);
-    z-index: 2000; /* Match other legend elements */
+    z-index: 2000; 
 }
 
 .rlegendContainer::before {
@@ -195,7 +188,6 @@ body {
     mask-composite: exclude;
 }
 
-/* Modern Legend Scale */
 .rlegendScale ul {
     display: flex;
     justify-content: space-between;
@@ -203,7 +195,7 @@ body {
     gap: 0.5rem;
     padding: 0;
     margin: 0;
-    z-index: 2000; /* Ensure legend items are visible */
+    z-index: 2000;
 }
 
 .rlegendScale ul li {
@@ -212,6 +204,13 @@ body {
     padding: 0.5rem;
     border-radius: 8px;
     transition: transform 0.2s ease;
+}
+
+.rlegendContainer li span {
+    float: left;
+    width: 100%;
+    text-align: center;
+    word-wrap: break-word;
 }
 
 .rlegendScale ul li:hover {
@@ -224,7 +223,6 @@ body {
     margin-top: 0.5rem;
 }
 
-/* Responsive Logo */
 .logo {
     position: fixed;
     left: 1rem;
@@ -244,7 +242,6 @@ body {
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 
-/* Media Queries for Responsive Design */
 @media (max-width: 768px) {
     .rlegendContainer {
         width: 95%;
@@ -257,18 +254,17 @@ body {
     }
 
     #capture {
-        bottom: 5rem; /* Adjusted for mobile */
+        bottom: 5rem; 
         font-size: 0.875rem;
         padding: 0.5rem 1rem;
     }
 
     .legend {
-        width: 25%; /* Slightly wider on mobile */
-        right: 0.5rem; /* Closer to edge on mobile */
+        width: 25%; 
+        right: 0.5rem; 
     }
 }
 
-/* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
     .rlegendContainer {
         background: rgba(33, 33, 33, 0.95);
