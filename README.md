@@ -1,8 +1,8 @@
 # Eastwind Consult Weather Forecasting Platform 🌦️  
 
-[![GPL-3.0 License](https://img.shields.io/badge/license-GPL--3.0-blue)](./LICENSE.md)  
-[![GitHub Pages](https://img.shields.io/badge/deployment-GitHub%20Pages-blue)](https://nextgenworldweather.github.io)  
-[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](https://github.com/nextgenworldweather/nextgenworldweather.github.io/issues)  
+[![GPL-3.0 License](https://img.shields.io/badge/license-GPL--3.0-blue)](./LICENSE.md)
+[![GitHub Pages](https://img.shields.io/badge/deployment-GitHub%20Pages-blue)](https://nextgenworldweather.github.io)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](https://github.com/nextgenworldweather/nextgenworldweather.github.io/issues) 
 
 A comprehensive weather forecasting platform that combines the Weather Research and Forecasting (WRF) model initialized with Global Forecast System (GFS) data. The forecasts are visualized using Leaflet maps with KML overlays for Australia, China, India, and West Africa regions, providing high-frequency updates at 15-minute intervals. Rainfall forecasts are overlaid with wind direction, speed, pressure, and pressure centers (High and Low).
 
