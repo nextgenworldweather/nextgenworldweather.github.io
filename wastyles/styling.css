@@ -47,7 +47,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    position: relative;
+    position: absolute;
     left: 9%;
     width: auto;
     margin: 0 auto;
