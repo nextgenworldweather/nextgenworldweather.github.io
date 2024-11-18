@@ -11,6 +11,7 @@ body {
 
 .leaflet-pane.leaflet-map-pane {
     border: transparent;
+    will-change: transform;
 }
 
 .leaflet-image-layer.leaflet-zoom-animated {
@@ -47,7 +48,7 @@ body {
     align-items: center;
     gap: 0.5rem;
     position: relative;
-    left: 0;
+    left: 9%;
     width: auto;
     margin: 0 auto;
     padding: 0.5rem;
