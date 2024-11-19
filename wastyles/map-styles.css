@@ -1,0 +1,305 @@
+:root {
+    --color-light-rain: #50FCFC;
+    --color-rain-showers: #00A8FC;
+    --color-rain: #24D000;
+    --color-heavy-rain: #64E000;
+    --color-very-heavy-rain: #E8A824;
+    --color-extreme-rain: #FC1414;
+    --color-thunderstorm: #8C0000;
+    
+    --transition-normal: 0.3s ease;
+    --border-radius-lg: 12px;
+    --border-radius-sm: 8px;
+    --box-shadow-normal: 0 3px 10px rgba(0, 0, 0, 0.1);
+    --gradient-border: linear-gradient(
+        45deg,
+        rgb(236, 236, 51),
+        rgb(245, 62, 62),
+        rgb(8, 148, 230),
+        rgb(30, 173, 25)
+    );
+}
+
+/* Base Styles */
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+}
+
+.map-container {
+    width: 100dvw;
+    height: 100dvh;
+    position: relative;
+}
+
+/* Leaflet Map Customizations */
+.leaflet-pane.leaflet-map-pane {
+    border: none;
+    will-change: transform;
+}
+
+.leaflet-image-layer.leaflet-zoom-animated {
+    background: transparent;
+    z-index: 350;
+    width: 100%;
+    transition: opacity var(--transition-normal);
+    backface-visibility: hidden;
+}
+
+/* Controls Section */
+.controls-wrapper {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem; 
+    z-index: 1000;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    gap: 1rem;
+}
+
+.forecast-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(51, 51, 51, 0.9);
+    border-radius: 25px;
+    max-width: 100%;
+}
+
+.forecast-info {
+    display: flex;
+    gap: 1rem;
+    color: #fff;
+    font-size: clamp(0.875rem, 2vw, 1.1rem);
+    flex-wrap: wrap;
+}
+
+.playback-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.control-btn {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn:hover,
+.control-btn:focus-visible {
+    background: #333;
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.record-btn {
+    margin-left: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    color: #333;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 0 0 2px rgba(236, 236, 51, 0.5),
+        0 0 0 4px rgba(245, 62, 62, 0.5),
+        0 0 0 6px rgba(8, 148, 230, 0.5),
+        0 0 0 8px rgba(30, 173, 25, 0.5);
+}
+
+.record-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 0 3px rgba(236, 236, 51, 0.6),
+        0 0 0 6px rgba(245, 62, 62, 0.6),
+        0 0 0 9px rgba(8, 148, 230, 0.6),
+        0 0 0 12px rgba(30, 173, 25, 0.6);
+}
+
+/* Branding */
+.branding {
+    position: fixed;
+    right: 1.5rem;
+    top: 2rem;
+    z-index: 1000;
+}
+
+.logo-link {
+    display: block;
+    opacity: 0.4;
+    transition: opacity var(--transition-normal);
+}
+
+.logo-link:hover {
+    opacity: 0.8;
+}
+
+.logo-img {
+    width: clamp(40px, 5vw, 55px);
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Legend */
+.legend-container {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(300px, 83%, 1200px);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem;
+    box-shadow: var(--box-shadow-normal);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+.legend-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--border-radius-lg);
+    padding: 2px;
+    background: var(--gradient-border);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.legend-header {
+    margin-bottom: 1rem;
+}
+
+.legend-title {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+}
+
+.contact-info {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.contact-info a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.legend-item {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.legend-item:hover {
+    transform: scale(1.05);
+}
+
+.legend-color {
+    display: block;
+    height: 7.5px;
+    border-radius: 4px;
+    margin-bottom: 0.25rem;
+}
+
+.legend-color.light-rain { background: var(--color-light-rain); }
+.legend-color.rain-showers { background: var(--color-rain-showers); }
+.legend-color.rain { background: var(--color-rain); }
+.legend-color.heavy-rain { background: var(--color-heavy-rain); }
+.legend-color.very-heavy-rain { background: var(--color-very-heavy-rain); }
+.legend-color.extreme-rain { background: var(--color-extreme-rain); }
+.legend-color.thunderstorm { background: var(--color-thunderstorm); }
+
+.legend-label {
+    font-size: 0.875rem;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .legend-container {
+        background: rgba(33, 33, 33, 0.95);
+        color: #fff;
+    }
+
+    .control-btn {
+        background: rgba(33, 33, 33, 0.9);
+        color: #fff;
+    }
+
+    .control-btn:hover,
+    .control-btn:focus-visible {
+        background: #fff;
+        color: #333;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .legend-container {
+        width: 95%;
+        font-size: 0.875rem;
+    }
+
+    .control-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .controls-wrapper {
+        left: 1rem; 
+        bottom: 1.5rem; 
+    }
+
+    .forecast-controls {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .forecast-info {
+        font-size: 0.875rem;
+    }
+
+    .record-btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .legend-items {
+        gap: 0.5rem;
+    }
+
+    .legend-item {
+        min-width: 80px;
+    }
+}
