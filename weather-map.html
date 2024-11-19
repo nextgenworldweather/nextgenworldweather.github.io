@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="/wastyles/leaflet.css" />
+       <!-- Bring in the css stylesheets -->
+       <link rel="stylesheet" href="/wastyles/leaflet.css" />
        <link rel="stylesheet" href="/wastyles/map-styles.css" />
-       
+
+       <!-- Bring in the leaflet Map plugin -->
        <script src="js/leaflet.js"></script>
        
        <!-- Bring in the leaflet KML plugin -->
@@ -55,6 +57,15 @@
         </div>
 
         <aside class="legend-container">
+            <div class="legend-header">
+                <h2 class="banner-title"></h2>
+                <p class="banner-info">
+                    <marquee>
+                        <a href="mailto:pnunekpeku5@gmail.com">pnunekpeku5@gmail.com</a>
+                        <a href="mailto:eastwindconsultintl@gmail.com">eastwindconsultintl@gmail.com</a>
+                    </marquee>
+                </p>
+            </div>
             <div class="legend-scale">
                 <ul class="legend-items">
                     <li class="legend-item">
@@ -92,7 +103,7 @@
 
     <script>
 
-        var map = L.map('map').setView([-20.0, 132.0], 4); 
+        var map = L.map('map').setView([-25.0, 132.0], 4); 
             map.options.minZoom = 4;    
               map.options.maxZoom = 6; // Reduce this for free editions                 
         const bounds = [
@@ -103,8 +114,8 @@
 //        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
 
-           attribution: '<a href="https://web.facebook.com/eastwindconsult">EastwindConsult</a> | \
-               <a href="https://web.facebook.com/eastwindconsult">eastwindconsultintl@gmail.com</a> | \
+           attribution: '<a href="https://nextgenworldweather.github.io">EastwindConsult</a> | \
+               <a href="mailto:eastwindconsultintl@gmail.com">eastwindconsultintl@gmail.com</a> | \
            &copy; <a href="https://server.arcgisonline.com">ESRI ArcGIS</a> '
        }).addTo(map);
        
