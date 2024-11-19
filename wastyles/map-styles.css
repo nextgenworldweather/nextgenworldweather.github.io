@@ -50,13 +50,13 @@ body {
 /* Controls Section */
 .controls-wrapper {
     position: fixed;
-    bottom: 2rem;
+    bottom: 1rem;
     left: 2rem; 
     z-index: 1000;
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
+    align-items: center; 
     gap: 1rem;
 }
 
@@ -108,8 +108,7 @@ body {
 }
 
 .record-btn {
-    margin-left: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1.25rem;
     font-size: 1rem;
     color: #333;
     background: rgba(255, 255, 255, 0.95);
@@ -137,7 +136,7 @@ body {
 .branding {
     position: fixed;
     right: 1.5rem;
-    top: 2rem;
+    top: 0.5rem;
     z-index: 1000;
 }
 
@@ -160,7 +159,7 @@ body {
 /* Legend */
 .legend-container {
     position: fixed;
-    top: 1rem;
+    top: 0.5rem;
     left: 50%;
     transform: translateX(-50%);
     width: clamp(300px, 83%, 1200px);
@@ -185,25 +184,25 @@ body {
 }
 
 .legend-header {
-    margin-bottom: 1rem;
+    margin-bottom: 0.125rem;  /* 1rem */
 }
 
-.legend-title {
+.banner-title {
     font-size: 1rem;
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.125rem;
 }
 
-.contact-info {
+.banner-info {
     margin: 0;
     font-size: 0.9rem;
 }
 
-.contact-info a {
+.banner-info a {
     color: inherit;
     text-decoration: none;
 }
 
-.contact-info a:hover {
+.banner-info a:hover {
     text-decoration: underline;
 }
 
