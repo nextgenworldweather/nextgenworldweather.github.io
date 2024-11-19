@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="leaflet.css" />
+       <link rel="stylesheet" href="map-styles.css" />
+       
+       <script src="js/leaflet.js"></script>
+       
+       <!-- Bring in the leaflet KML plugin -->
+       <script src="js/KML.js"></script> 
+       
+       <!-- Bring in the shapefile plugins -->
+
+       <script src="js/catiline.js"></script>
+       <script src="js/leaflet.shpfile.js"></script>
+       
+       <script src="js/leaflet.ajax.min.js"></script>
+       <script src="js/leaflet.ajax.js"></script>
+    
+    <title>Weather Map - EastWind Consult</title>
+</head>
+<body>
+    <main id="map" class="map-container">
+        <section class="controls-wrapper">
+            <div class="forecast-controls">
+                <div class="forecast-info">
+                    <time id="fcstDate" class="forecast-date"></time>
+                    <time id="fcstHour" class="forecast-hour"></time>
+                    <span id="fcstZone" class="forecast-zone">UTC</span>
+                </div>
+                
+                <div class="playback-controls">
+                    <button type="button" class="control-btn prev-btn" aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </button>
+                    <button type="button" class="control-btn play-pause-btn" aria-label="Play/Pause">
+                        <span aria-hidden="true">❚❚</span>
+                    </button>
+                    <button type="button" class="control-btn next-btn" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </button>
+                </div>
+            </div>
+
+            <button type="button" id="capture" class="record-btn">Record Forecast</button>
+        </section>
+
+        <div class="branding">
+            <a href="#" class="logo-link" aria-label="EastWind Consult">
+                <img src="images/eastwindconsult.png" alt="EastWind Consult Logo" class="logo-img" width="55" height="55">
+            </a>
+        </div>
+
+        <aside class="legend-container">
+            <div class="legend-scale">
+                <ul class="legend-items">
+                    <li class="legend-item">
+                        <span class="legend-color light-rain"></span>
+                        <span class="legend-label">Light Rain</span>
+                    </li>
+                    <li class="legend-item">
+                        <span class="legend-color rain-showers"></span>
+                        <span class="legend-label">Rain Showers</span>
+                    </li>
+                    <li class="legend-item">
+                        <span class="legend-color rain"></span>
+                        <span class="legend-label">Rain</span>
+                    </li>
+                    <li class="legend-item">
+                        <span class="legend-color heavy-rain"></span>
+                        <span class="legend-label">Heavy Rain</span>
+                    </li>
+                    <li class="legend-item">
+                        <span class="legend-color very-heavy-rain"></span>
+                        <span class="legend-label">Very Heavy Rain</span>
+                    </li>
+                    <li class="legend-item">
+                        <span class="legend-color extreme-rain"></span>
+                        <span class="legend-label">Extreme Rain</span>
+                    </li>
+                    <li class="legend-item">
+                        <span class="legend-color thunderstorm"></span>
+                        <span class="legend-label">Thunderstorm</span>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+
+        var map = L.map('map').setView([-20.0, 132.0], 4); 
+            map.options.minZoom = 4;    
+              map.options.maxZoom = 6; // Reduce this for free editions                 
+        const bounds = [
+                         [-65,120.0], // SouthWest Coordinates  2.282608,-17.84559
+                         [15.0,150.0] // NorthEast Coordinates  17.5386,15.44559
+                      ];
+
+//        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+
+           attribution: '<a href="https://web.facebook.com/eastwindconsult">EastwindConsult</a> | \
+               <a href="https://web.facebook.com/eastwindconsult">eastwindconsultintl@gmail.com</a> | \
+           &copy; <a href="https://server.arcgisonline.com">ESRI ArcGIS</a> '
+       }).addTo(map);
+       
+//       Uploading Shapefile of India Outline Map
+      
+       var australiaOutline = new L.GeoJSON.AJAX("/shapefile/australiaoutline.geojson");  
+        
+       australiaOutline.addTo(map);
+
+       var kmlLayer = new L.KML("/forecast/australia/totalprecip/2023072300/wrf_precslpwind.kml", {async: true});
+
+       var mapKmlLayer = map.addLayer(kmlLayer);
+
+       map.setMaxBounds(bounds, {reset: true});
+
+</script>
+<script src="js/mykmlanimation2.js"></script>
+<script src="js/record.js"></script>
+</body>
+</html>
