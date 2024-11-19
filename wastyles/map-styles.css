@@ -33,6 +33,12 @@ body {
     position: relative;
 }
 
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+    top: 10rem; 
+}
+
 /* Leaflet Map Customizations */
 .leaflet-pane.leaflet-map-pane {
     border: none;
