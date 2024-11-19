@@ -32,16 +32,37 @@ window.addEventListener('load', function() {
         });
     }
 
-    // Animation functionality
-    const forecasts = document.querySelectorAll("#map img.leaflet-image-layer");
-    const totalForecasts = forecasts.length;
-    const loopForecasts = totalForecasts - 1;
+    // Store forecast images
+    let forecasts = [];
     let forecastIndex = 0;
+    let animationInterval = null;
 
-    // Remove initial forecasts except the first one
-    for (let i = 1; i < totalForecasts; i++) {
-        forecasts[i].remove();
+    // Function to initialize forecasts
+    function initForecasts() {
+        const images = document.querySelectorAll("#map img.leaflet-image-layer.leaflet-zoom-animated");
+        forecasts = Array.from(images);
+        
+        if (forecasts.length === 0) {
+            console.warn('No forecast images found');
+            return false;
+        }
+
+        // Remove all images except the first one
+        forecasts.forEach((img, index) => {
+            if (index > 0) {
+                img.remove();
+            }
+        });
+
+        return true;
     }
+
+    // Initialize forecasts
+    if (!initForecasts()) {
+        return; // Exit if no forecasts found
+    }
+
+    const totalForecasts = forecasts.length;
 
     // Animation control functions
     function nextForecast() {
@@ -53,16 +74,16 @@ window.addEventListener('load', function() {
     }
 
     function goToForecast(n) {
-        const overlayPane = document.querySelector("#map .leaflet-overlay-pane");
-        if (!overlayPane) return;
+        const overlayPane = document.querySelector("#map .leaflet-pane.leaflet-overlay-pane");
+        if (!overlayPane || !forecasts[n]) return;
 
         forecastIndex = n;
         const currentImages = overlayPane.querySelectorAll('img');
         
-        // Remove current image
+        // Remove current images
         currentImages.forEach(img => img.remove());
 
-        // Add new image
+        // Clone and add new image
         const newImage = forecasts[n].cloneNode(true);
         overlayPane.appendChild(newImage);
 
@@ -75,23 +96,27 @@ window.addEventListener('load', function() {
     }
 
     function updateForecastInfo(imageSrc) {
-        const splitTitle = imageSrc.split("_");
-        const splitTime = splitTitle[3].split(".");
-        const date = splitTitle[2];
-        const time = splitTime[0].replace(/-/g, ":");
+        try {
+            const splitTitle = imageSrc.split("_");
+            const splitTime = splitTitle[3].split(".");
+            const date = splitTitle[2];
+            const time = splitTime[0].replace(/-/g, ":");
 
-        const forecastInfo = document.querySelector('.forecast-info');
-        if (forecastInfo) {
-            forecastInfo.innerHTML = `
-                <div class="forecast-date">${date}</div>
-                <div class="forecast-time">${time}</div>
-            `;
+            const forecastInfo = document.querySelector('.forecast-info');
+            if (forecastInfo) {
+                forecastInfo.innerHTML = `
+                    <div class="forecast-date">${date}</div>
+                    <div class="forecast-time">${time}</div>
+                `;
+            }
+        } catch (error) {
+            console.warn('Error updating forecast info:', error);
         }
     }
 
     // Setup animation controls
     let playing = true;
-    let animationInterval = setInterval(nextForecast, 750);
+    animationInterval = setInterval(nextForecast, 750);
 
     // Play/Pause button
     const pauseButton = playbackControls.children[1];
