@@ -1,6 +1,6 @@
 @echo off
 :: Git Operations Helper Script
-:: Version 2.1.0
+:: Version 2.2.0
 
 :: Configuration
 setlocal enabledelayedexpansion
@@ -126,8 +126,15 @@ if %ERRORLEVEL% neq 0 (
 )
 
 :: Check if local branch is behind remote
-git status | findstr "Your branch is behind" >nul 2>&1
-if %ERRORLEVEL% neq 0 (
+git rev-list --left-right --count origin/%branchName%...%branchName% >temp_rev_count.txt
+for /f "tokens=1,2 delims= " %%A in (temp_rev_count.txt) do (
+    set "behind=%%A"
+    set "ahead=%%B"
+)
+
+del temp_rev_count.txt
+
+if "%behind%"=="0" (
     echo Local branch is up to date. No pull required.
     exit /b 0
 )
