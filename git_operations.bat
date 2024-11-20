@@ -1,6 +1,6 @@
 @echo off
 :: Enhanced Git operations script with status report and auto-commit
-:: Version 2.3.2
+:: Version 2.3.3
 
 setlocal enabledelayedexpansion
 
@@ -14,14 +14,12 @@ if %ERRORLEVEL% neq 0 (
 )
 
 :: Check for changes not staged for commit
-setlocal
 set changes_present=0
 for /f "tokens=*" %%i in ('git status -s') do (
     set changes_present=1
     goto break_loop
 )
 :break_loop
-endlocal & set changes_present=%changes_present%
 
 if %changes_present% equ 1 (
     echo.
