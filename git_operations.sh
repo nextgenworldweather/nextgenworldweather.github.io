@@ -1,102 +1,121 @@
 #!/bin/bash
-# Enhanced Git operations script for Linux with advanced features
-# Usage: ./git_operations.sh push/pull/status
+# Enhanced Git push script with advanced conflict resolution
+# Version 2.1.0
 
-# Check if Git is installed
-if ! command -v git &> /dev/null; then
-    echo "Error: Git is not installed."
-    exit 1
-fi
-
-# Color codes for better output
+# Color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-function push_changes() {
-    # Check for uncommitted changes
-    if [[ -z $(git status -s) ]]; then
-        echo -e "${YELLOW}No changes to commit.${NC}"
-        exit 0
+# Conflict resolution function
+resolve_conflicts() {
+    echo -e "${YELLOW}Conflicts detected. Starting interactive resolution...${NC}"
+
+    # List conflicting files
+    echo "Conflicting files:"
+    conflicting_files=$(git diff --name-only --diff-filter=U)
+    
+    if [ -z "$conflicting_files" ]; then
+        echo "No conflicts found."
+        return 0
     fi
 
-    echo -e "${YELLOW}Enter your commit message:${NC}"
-    read -r commitMessage
+    echo "$conflicting_files"
 
-    if [ -z "$commitMessage" ]; then
-        echo -e "${RED}Error: Commit message cannot be empty.${NC}"
-        exit 1
-    fi
+    # Conflict resolution menu
+    while true; do
+        echo -e "${YELLOW}Conflict Resolution Options:${NC}"
+        echo "1. Open conflicting files in VS Code"
+        echo "2. Use 'git mergetool'"
+        echo "3. Manually resolve conflicts"
+        echo "4. Abort merge"
+        read -p "Select option (1-4): " choice
 
-    echo -e "${GREEN}Checking repository status...${NC}"
-    git fetch origin
-
-    echo -e "${GREEN}Pushing changes to GitHub...${NC}"
-    git add .
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Error: Failed to stage changes.${NC}"
-        exit 1
-    fi
-
-    git commit -m "$commitMessage"
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Error: Commit failed.${NC}"
-        exit 1
-    fi
-
-    git push origin main
-    if [ $? -ne 0 ]; then
-        echo -e "${YELLOW}Push failed. Attempting to pull and merge...${NC}"
-        git pull --rebase origin main
-        if [ $? -ne 0 ]; then
-            echo -e "${RED}Merge failed. Resolve conflicts manually.${NC}"
-            exit 1
-        fi
-        git push origin main
-    fi
-
-    echo -e "${GREEN}Push successful!${NC}"
+        case $choice in
+            1)
+                code .
+                manual_resolution_prompt
+                break
+                ;;
+            2)
+                git mergetool
+                merge_complete
+                break
+                ;;
+            3)
+                manual_resolution_prompt
+                break
+                ;;
+            4)
+                git merge --abort
+                echo -e "${RED}Merge aborted.${NC}"
+                exit 1
+                ;;
+            *)
+                echo -e "${RED}Invalid option. Try again.${NC}"
+                ;;
+        esac
+    done
 }
 
-function pull_changes() {
+manual_resolution_prompt() {
+    echo -e "${YELLOW}IMPORTANT: After resolving conflicts:${NC}"
+    echo "1. Remove conflict markers (<<<<<<<, =======, >>>>>>>)"
+    echo "2. Save files"
+    echo "3. Stage resolved files with 'git add'"
+    echo "4. Complete merge with 'git commit'"
+    read -p "Press Enter when ready to continue..."
+    merge_complete
+}
+
+merge_complete() {
+    git status
+    read -p "Have you resolved all conflicts? (y/n): " confirmed
+    if [[ "$confirmed" =~ ^[Yy]$ ]]; then
+        git add .
+        git commit -m "Resolved merge conflicts"
+    else
+        resolve_conflicts
+    fi
+}
+
+advanced_push() {
+    # Check for uncommitted changes
+    if [[ -z $(git status -s) ]]; then
+        echo -e "${YELLOW}No local changes to commit.${NC}"
+        return 0
+    fi
+
+    # Interactive commit message
+    while true; do
+        read -p "Enter commit message: " commitMessage
+        if [ -n "$commitMessage" ]; then
+            break
+        fi
+        echo -e "${RED}Commit message cannot be empty.${NC}"
+    done
+
+    # Fetch latest changes
     echo -e "${GREEN}Fetching latest changes...${NC}"
     git fetch origin
 
-    echo -e "${GREEN}Pulling changes from GitHub...${NC}"
-    git pull origin main
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Pull failed. Possible merge conflicts.${NC}"
-        echo "Try resolving conflicts manually or use 'git mergetool'."
-        exit 1
+    # Stage and commit changes
+    git add .
+    git commit -m "$commitMessage"
+
+    # Push with conflict handling
+    if ! git push origin main; then
+        echo -e "${YELLOW}Push failed. Attempting to resolve...${NC}"
+        if ! git pull --rebase origin main; then
+            resolve_conflicts
+        fi
+        
+        git push origin main
     fi
 
-    echo -e "${GREEN}Pull successful!${NC}"
+    echo -e "${GREEN}Push completed successfully.${NC}"
 }
 
-function check_status() {
-    echo -e "${GREEN}Checking Git repository status...${NC}"
-    git status
-}
-
-# Main script execution
-case "$1" in
-    push)
-        push_changes
-        ;;
-    pull)
-        pull_changes
-        ;;
-    status)
-        check_status
-        ;;
-    *)
-        echo "Usage: $0 [push|pull|status]"
-        echo
-        echo "Options:"
-        echo "  push   - Stage, commit, and push changes"
-        echo "  pull   - Fetch and merge changes from remote"
-        echo "  status - Check git repository status"
-        exit 1
-        ;;
-esac
+# Execute the push function
+advanced_push
