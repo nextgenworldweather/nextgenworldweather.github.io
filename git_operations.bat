@@ -1,6 +1,6 @@
 @echo off
 :: Enhanced Git operations script with status report and auto-commit
-:: Version 2.3.0
+:: Version 2.3.1
 
 setlocal enabledelayedexpansion
 
@@ -122,7 +122,26 @@ echo Checking for uncommitted changes...
 git diff-index --quiet HEAD
 if %ERRORLEVEL% equ 0 (
     echo No local changes to commit.
-    exit /b 0
+    echo Checking if local branch is ahead of remote...
+    git status | findstr "Your branch is ahead of"
+    if %ERRORLEVEL% equ 0 (
+        echo Local branch is ahead of remote. Pushing changes...
+        git push origin main
+        if %ERRORLEVEL% neq 0 (
+            echo Push failed. Attempting to resolve...
+            git pull --rebase origin main
+            if %ERRORLEVEL% neq 0 (
+                call :resolve_conflicts
+            )
+            
+            git push origin main
+        )
+        echo Push completed successfully.
+        exit /b 0
+    ) else (
+        echo No new changes to push.
+        exit /b 0
+    )
 )
 
 echo Enter commit message:
