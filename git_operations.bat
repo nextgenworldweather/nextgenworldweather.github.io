@@ -1,6 +1,6 @@
 @echo off
 :: Enhanced Git operations script with status report and auto-commit
-:: Version 2.3.3
+:: Version 2.3.4
 
 setlocal enabledelayedexpansion
 
@@ -140,33 +140,34 @@ if %ERRORLEVEL% equ 0 (
         echo No new changes to push.
         exit /b 0
     )
-)
+) else (
+    echo Changes detected. Staging and committing changes...
+    echo Enter commit message:
+    set /p commitMessage=
 
-echo Enter commit message:
-set /p commitMessage=
-
-if "%commitMessage%"=="" (
-    echo Commit message cannot be empty.
-    exit /b 1
-)
-
-echo Fetching latest changes...
-git fetch origin
-
-echo Staging and committing changes...
-git add .
-git commit -m "%commitMessage%"
-
-echo Attempting to push...
-git push origin main
-if %ERRORLEVEL% neq 0 (
-    echo Push failed. Attempting to resolve...
-    git pull --rebase origin main
-    if %ERRORLEVEL% neq 0 (
-        call :resolve_conflicts
+    if "%commitMessage%"=="" (
+        echo Commit message cannot be empty.
+        exit /b 1
     )
-    
+
+    echo Fetching latest changes...
+    git fetch origin
+
+    echo Staging and committing changes...
+    git add .
+    git commit -m "%commitMessage%"
+
+    echo Attempting to push...
     git push origin main
+    if %ERRORLEVEL% neq 0 (
+        echo Push failed. Attempting to resolve...
+        git pull --rebase origin main
+        if %ERRORLEVEL% neq 0 (
+            call :resolve_conflicts
+        )
+        
+        git push origin main
+    )
 )
 
 echo Push completed successfully.
