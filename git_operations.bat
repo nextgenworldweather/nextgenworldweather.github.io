@@ -1,6 +1,6 @@
 @echo off
 :: Git Operations Helper Script for nextgenworldweather.github.io Repository
-:: Version 3.1.1
+:: Version 3.1.0
 
 :: Configuration
 setlocal enabledelayedexpansion
@@ -73,44 +73,22 @@ if %ERRORLEVEL% neq 0 (
 )
 echo Changes committed successfully.
 
-:: Check if branch is up to date with remote before pushing
-git fetch origin %branchName%
-git status | findstr /i "up to date"
-if %ERRORLEVEL% == 0 (
-    echo Branch is already up to date with %repoURL%.
-    set /p push_choice="No changes to push. Would you still like to push any changes (if applicable)? (y/n): "
-    if /i "%push_choice%"=="y" (
-        git push origin %branchName%
+:: Push committed changes
+set /p push_choice="Would you like to push changes to %repoURL%? (y/n): "
+if /i "%push_choice%"=="y" (
+    git push origin %branchName%
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Push operation failed. Attempting to resolve...
+        git pull --rebase origin %branchName%
         if %ERRORLEVEL% neq 0 (
-            echo Error: Push operation failed. Attempting to resolve...
-            git pull --rebase origin %branchName%
-            if %ERRORLEVEL% neq 0 (
-                echo Error: Pull and rebase failed. Resolve conflicts manually.
-                exit /b 1
-            )
-            git push origin %branchName%
+            echo Error: Pull and rebase failed. Resolve conflicts manually.
+            exit /b 1
         )
-        echo Success: Changes pushed to %repoURL%.
-    ) else (
-        echo Push operation cancelled by user.
+        git push origin %branchName%
     )
+    echo Success: Changes pushed to %repoURL%.
 ) else (
-    set /p push_choice="Would you like to push changes to %repoURL%? (y/n): "
-    if /i "%push_choice%"=="y" (
-        git push origin %branchName%
-        if %ERRORLEVEL% neq 0 (
-            echo Error: Push operation failed. Attempting to resolve...
-            git pull --rebase origin %branchName%
-            if %ERRORLEVEL% neq 0 (
-                echo Error: Pull and rebase failed. Resolve conflicts manually.
-                exit /b 1
-            )
-            git push origin %branchName%
-        )
-        echo Success: Changes pushed to %repoURL%.
-    ) else (
-        echo Push operation cancelled by user.
-    )
+    echo Push operation cancelled by user.
 )
 
 exit /b 0
@@ -118,9 +96,7 @@ exit /b 0
 :: Function to display concise Git status
 :show_status
 echo Checking repository: %repoURL%...
-for /f "tokens=*" %%G in ('git status -s') do (
-    call :process_changes "%%G"
-)
+git status -s
 if %ERRORLEVEL% neq 0 (
     echo Error: Failed to retrieve repository status.
     exit /b %ERRORLEVEL%
@@ -144,32 +120,46 @@ exit /b 0
 :: Function to pull changes
 :advanced_pull
 echo Checking repository: %repoURL%...
-for /f "tokens=*" %%G in ('git status -s') do (
-    call :process_changes "%%G"
+git status -s
+if %ERRORLEVEL% neq 0 (
+    echo Error: Failed to retrieve repository status.
+    exit /b %ERRORLEVEL%
 )
 
-:: Check if branch is up to date with remote before pulling
-git fetch origin %branchName%
-git status | findstr /i "up to date"
-if %ERRORLEVEL% == 0 (
-    echo Branch is already up to date with %repoURL%.
-    echo No changes to pull.
-) else (
-    echo Pulling changes from %repoURL%...
-    git pull origin %branchName%
-    if %ERRORLEVEL% neq 0 (
-        echo Error: Pull operation failed. Resolve conflicts manually if present.
-        exit /b %ERRORLEVEL%
-    )
-    echo Success: Pull operation completed successfully.
+:: Proceed to pull changes
+git pull origin %branchName%
+if %ERRORLEVEL% neq 0 (
+    echo Error: Pull operation failed. Resolve conflicts manually if present.
+    exit /b %ERRORLEVEL%
 )
+echo Success: Pull operation completed successfully.
 exit /b 0
 
 :: Function to push changes
 :advanced_push
 echo Checking repository: %repoURL%...
-for /f "tokens=*" %%G in ('git status -s') do (
-    call :process_changes "%%G"
+git status -s
+if %ERRORLEVEL% neq 0 (
+    echo Error: Failed to retrieve repository status.
+    exit /b %ERRORLEVEL%
+)
+
+:: Check if local branch is ahead of remote
+git status | findstr "Your branch is ahead of"
+if %ERRORLEVEL% equ 0 (
+    echo Local branch is ahead of remote. Pushing changes...
+    git push origin %branchName%
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Push operation failed. Attempting to resolve...
+        git pull --rebase origin %branchName%
+        if %ERRORLEVEL% neq 0 (
+            echo Error: Pull and rebase failed. Resolve conflicts manually.
+            exit /b 1
+        )
+        git push origin %branchName%
+    )
+    echo Success: Changes pushed to %repoURL%.
+    exit /b 0
 )
 
 :: Commit changes if any
@@ -188,8 +178,6 @@ if %ERRORLEVEL% neq 0 (
         exit /b %ERRORLEVEL%
     )
     echo Changes committed successfully.
-) else (
-    echo No changes staged for commit.
 )
 
 :: Push committed changes
