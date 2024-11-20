@@ -1,144 +1,196 @@
 @echo off
-:: Git Helper Script for nextgenworldweather.github.io Repository
-:: Version 2.4.1
+:: Git Operations Helper Script for nextgenworldweather.github.io Repository
+:: Version 3.1.0
 
 :: Configuration
 setlocal enabledelayedexpansion
 set repoURL=https://github.com/nextgenworldweather/nextgenworldweather.github.io.git
 set branchName=main
 
-:: Function to check Git status
-:show_status
-echo Generating Git status report for repository: %repoURL%...
-git status
+:: Helper function to prompt user action for each modified file
+:process_changes
+set "changes=%~1"
+
+:: Display detected changes
+echo Checking repository: %repoURL%...
+git status -s
 if %ERRORLEVEL% neq 0 (
-    echo Error: Failed to retrieve status. Ensure Git is properly set up for this repository.
+    echo Error: Failed to retrieve repository status.
     exit /b %ERRORLEVEL%
 )
 
-:: Check for changes not staged for commit
-set changes_present=0
-for /f "tokens=*" %%i in ('git status -s') do (
-    set changes_present=1
-    goto break_loop
+set /p status_choice="Would you like to view detailed status information? (y/n): "
+if /i "%status_choice%"=="y" (
+    git status -v
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Failed to retrieve detailed status.
+        exit /b %ERRORLEVEL%
+    )
+    echo Detailed status displayed successfully.
+) else (
+    echo Status check complete. No detailed view requested.
 )
-:break_loop
 
-if %changes_present% equ 1 (
-    echo.
-    echo Changes detected in the repository: %repoURL%.
-    set /p user_choice="Would you like to stage and commit all changes? (y/n): "
-    if /i "!user_choice!"=="y" (
-        echo Enter commit message:
-        set /p commitMessage=
+:: Prompt user to select operation for all modified files
+echo.
+echo Please choose an operation to perform on the modified files:
+echo 1. Stage all modified files with 'git add .'
+echo 2. Discard all changes in the working directory with 'git restore -- .'
+echo 3. Skip changes and do nothing
+set /p action_choice="Select an option (1/2/3): "
 
-        if "!commitMessage!"=="" (
-            echo Error: Commit message cannot be empty.
+if "%action_choice%"=="1" (
+    echo Staging all modified files...
+    git add .
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Failed to stage files.
+        exit /b %ERRORLEVEL%
+    )
+    echo Files staged successfully.
+) else if "%action_choice%"=="2" (
+    echo Discarding changes in all modified files...
+    git restore -- .
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Failed to discard changes.
+        exit /b %ERRORLEVEL%
+    )
+    echo Changes discarded successfully.
+) else (
+    echo No changes applied. Skipping files.
+)
+
+:: Commit the changes if staged
+echo Enter commit message:
+set /p commitMessage=
+if "%commitMessage%"=="" (
+    echo Error: Commit message cannot be empty.
+    exit /b 1
+)
+git commit -m "%commitMessage%"
+if %ERRORLEVEL% neq 0 (
+    echo Error: Commit operation failed.
+    exit /b %ERRORLEVEL%
+)
+echo Changes committed successfully.
+
+:: Push committed changes
+set /p push_choice="Would you like to push changes to %repoURL%? (y/n): "
+if /i "%push_choice%"=="y" (
+    git push origin %branchName%
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Push operation failed. Attempting to resolve...
+        git pull --rebase origin %branchName%
+        if %ERRORLEVEL% neq 0 (
+            echo Error: Pull and rebase failed. Resolve conflicts manually.
             exit /b 1
         )
-
-        echo Staging and committing changes...
-        git add .
-        if %ERRORLEVEL% neq 0 (
-            echo Error: Failed to stage changes.
-            exit /b %ERRORLEVEL%
-        )
-
-        git commit -m "!commitMessage!"
-        if %ERRORLEVEL% neq 0 (
-            echo Error: Commit failed.
-            exit /b %ERRORLEVEL%
-        )
-        
-        echo Success: Changes committed successfully to %repoURL%!
-    ) else (
-        echo Changes not staged and committed.
+        git push origin %branchName%
     )
+    echo Success: Changes pushed to %repoURL%.
 ) else (
-    echo No changes to commit for %repoURL%.
+    echo Push operation cancelled by user.
 )
 
 exit /b 0
 
-:: Function for push operation
-:advanced_push
-echo Checking for uncommitted changes in %repoURL%...
-git diff-index --quiet HEAD
-if %ERRORLEVEL% equ 0 (
-    echo No local changes to commit for %repoURL%.
-    echo Checking if local branch is ahead of remote...
-    git status | findstr "Your branch is ahead of"
-    if %ERRORLEVEL% equ 0 (
-        echo Local branch is ahead of remote. Pushing changes to %repoURL%...
-        git push origin %branchName%
-        if %ERRORLEVEL% neq 0 (
-            echo Error: Push failed. Attempting to resolve...
-            git pull --rebase origin %branchName%
-            if %ERRORLEVEL% neq 0 (
-                echo Error: Pull failed. Resolve conflicts manually.
-                exit /b 1
-            )
-            git push origin %branchName%
-        )
-        echo Success: Push completed successfully to %repoURL%.
-        exit /b 0
-    ) else (
-        echo No new changes to push for %repoURL%.
-        exit /b 0
-    )
-) else (
-    echo Changes detected. Staging and committing changes...
-    echo Enter commit message:
-    set /p commitMessage=
+:: Function to display concise Git status
+:show_status
+echo Checking repository: %repoURL%...
+for /f "tokens=*" %%G in ('git status -s') do (
+    call :process_changes "%%G"
+)
+if %ERRORLEVEL% neq 0 (
+    echo Error: Failed to retrieve repository status.
+    exit /b %ERRORLEVEL%
+)
 
+set /p status_choice="Would you like to view detailed status information? (y/n): "
+if /i "%status_choice%"=="y" (
+    echo Retrieving detailed status for %repoURL%...
+    git status -v
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Failed to retrieve detailed status.
+        exit /b %ERRORLEVEL%
+    )
+    echo Detailed status displayed successfully.
+) else (
+    echo Status check complete. No detailed view requested.
+)
+
+exit /b 0
+
+:: Function to pull changes
+:advanced_pull
+echo Checking repository: %repoURL%...
+for /f "tokens=*" %%G in ('git status -s') do (
+    call :process_changes "%%G"
+)
+
+:: Proceed to pull changes
+git pull origin %branchName%
+if %ERRORLEVEL% neq 0 (
+    echo Error: Pull operation failed. Resolve conflicts manually if present.
+    exit /b %ERRORLEVEL%
+)
+echo Success: Pull operation completed successfully.
+exit /b 0
+
+:: Function to push changes
+:advanced_push
+echo Checking repository: %repoURL%...
+for /f "tokens=*" %%G in ('git status -s') do (
+    call :process_changes "%%G"
+)
+
+:: Commit changes if any
+git diff-index --quiet HEAD
+if %ERRORLEVEL% neq 0 (
+    echo Staged changes detected. Commit required.
+    echo Enter commit message:
+    set /p commitMessage= 
     if "%commitMessage%"=="" (
         echo Error: Commit message cannot be empty.
         exit /b 1
     )
-
-    echo Fetching latest changes from %repoURL%...
-    git fetch origin
-
-    echo Staging and committing changes...
-    git add .
     git commit -m "%commitMessage%"
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Commit operation failed.
+        exit /b %ERRORLEVEL%
+    )
+    echo Changes committed successfully.
+) else (
+    echo No changes staged for commit.
+)
 
-    echo Attempting to push to %repoURL%...
+:: Push committed changes
+set /p push_choice="Would you like to push changes to %repoURL%? (y/n): "
+if /i "%push_choice%"=="y" (
     git push origin %branchName%
     if %ERRORLEVEL% neq 0 (
-        echo Error: Push failed. Attempting to resolve...
+        echo Error: Push operation failed. Attempting to resolve...
         git pull --rebase origin %branchName%
         if %ERRORLEVEL% neq 0 (
-            echo Error: Pull failed. Resolve conflicts manually.
+            echo Error: Pull and rebase failed. Resolve conflicts manually.
             exit /b 1
         )
         git push origin %branchName%
     )
+    echo Success: Changes pushed to %repoURL%.
+) else (
+    echo Push operation cancelled by user.
 )
 
-echo Success: Push completed successfully to %repoURL%.
-exit /b 0
-
-:: Function for pull operation
-:advanced_pull
-echo Pulling changes from %repoURL%...
-git pull origin %branchName%
-if %ERRORLEVEL% neq 0 (
-    echo Error: Pull failed for %repoURL%. Resolve any conflicts manually.
-    exit /b %ERRORLEVEL%
-)
-echo Success: Pull completed from %repoURL%.
 exit /b 0
 
 :: Main script execution
-if "%1"=="push" (
-    call :advanced_push
+if "%1"=="status" (
+    call :show_status
 ) else if "%1"=="pull" (
     call :advanced_pull
-) else if "%1"=="status" (
-    call :show_status
+) else if "%1"=="push" (
+    call :advanced_push
 ) else (
-    echo Error: Invalid option. Use "push", "pull", or "status".
+    echo Error: Invalid option. Use "status", "pull", or "push".
     exit /b 1
 )
 
