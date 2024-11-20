@@ -1,13 +1,13 @@
 @echo off
-:: Git Operations Helper Script
-:: Version 2.2.0
+:: Git Operations Helper Script - Refined for Pull Detection
+:: Version 2.3.0
 
 :: Configuration
 setlocal enabledelayedexpansion
 set repoURL=https://github.com/nextgenworldweather/nextgenworldweather.github.io.git
 set branchName=main
 
-:: Check if Git is installed and accessible
+:: Check if Git is installed
 git --version >nul 2>&1
 if %ERRORLEVEL% neq 0 (
     echo Error: Git is not installed or not accessible in PATH.
@@ -37,7 +37,6 @@ if %ERRORLEVEL% neq 0 (
     exit /b 1
 )
 
-:: Get the output of `git status -s`
 set "changes="
 for /f "tokens=* delims=" %%A in ('git status -s') do (
     set "changes=1"
@@ -61,7 +60,6 @@ if %ERRORLEVEL% neq 0 (
     exit /b 1
 )
 
-:: Get the output of `git status -s`
 set "changes="
 for /f "tokens=* delims=" %%A in ('git status -s') do (
     set "changes=1"
@@ -73,7 +71,6 @@ if not defined changes (
     exit /b 0
 )
 
-:: Prompt for commit message
 echo Enter commit message:
 set /p commitMessage=
 if "%commitMessage%"=="" (
@@ -81,7 +78,6 @@ if "%commitMessage%"=="" (
     exit /b 1
 )
 
-:: Stage and commit changes
 echo Staging and committing changes...
 git add . >nul 2>&1
 if %ERRORLEVEL% neq 0 (
@@ -95,14 +91,13 @@ if %ERRORLEVEL% neq 0 (
     exit /b 1
 )
 
-:: Push to remote
 echo Pushing changes to %repoURL%...
 git push origin %branchName% >nul 2>&1
 if %ERRORLEVEL% neq 0 (
     echo Error: Push operation failed. Checking for upstream changes...
     git pull --rebase origin %branchName% >nul 2>&1
     if %ERRORLEVEL% neq 0 (
-        echo Error: Pull and rebase failed. Please resolve conflicts manually.
+        echo Error: Pull and rebase failed. Resolve conflicts manually.
         exit /b 1
     )
     echo Pull and rebase successful. Retrying push...
@@ -119,23 +114,20 @@ exit /b 0
 :: Function to check for changes and pull
 :check_and_pull
 echo Checking repository for changes before pulling...
-git fetch >nul 2>&1
+git fetch origin %branchName% >nul 2>&1
 if %ERRORLEVEL% neq 0 (
     echo Error: Unable to fetch from remote repository.
     exit /b 1
 )
 
-:: Check if local branch is behind remote
-git rev-list --left-right --count origin/%branchName%...%branchName% >temp_rev_count.txt
-for /f "tokens=1,2 delims= " %%A in (temp_rev_count.txt) do (
-    set "behind=%%A"
-    set "ahead=%%B"
-)
+:: Compare local and remote branches
+set "localHash="
+set "remoteHash="
+for /f "delims=" %%A in ('git rev-parse %branchName%') do set "localHash=%%A"
+for /f "delims=" %%A in ('git rev-parse origin/%branchName%') do set "remoteHash=%%A"
 
-del temp_rev_count.txt
-
-if "%behind%"=="0" (
-    echo Local branch is up to date. No pull required.
+if "%localHash%"=="%remoteHash%" (
+    echo Local branch is up-to-date. No pull required.
     exit /b 0
 )
 
