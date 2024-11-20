@@ -1,8 +1,63 @@
 @echo off
-:: Enhanced Git push script with advanced conflict resolution
-:: Version 2.1.0
+:: Enhanced Git operations script with status report and auto-commit
+:: Version 2.3.0
 
 setlocal enabledelayedexpansion
+
+:: Function to show git status and handle user prompt
+:show_status
+echo Generating Git status report...
+git status
+if %ERRORLEVEL% neq 0 (
+    echo Failed to retrieve status. Check for errors.
+    exit /b %ERRORLEVEL%
+)
+
+:: Check for changes not staged for commit
+setlocal
+set changes_present=0
+for /f "tokens=*" %%i in ('git status -s') do (
+    set changes_present=1
+    goto break_loop
+)
+:break_loop
+endlocal & set changes_present=%changes_present%
+
+if %changes_present% equ 1 (
+    echo.
+    echo Changes detected in the repository.
+    set /p user_choice="Would you like to stage and commit all changes? (y/n): "
+    if /i "!user_choice!"=="y" (
+        echo Enter commit message:
+        set /p commitMessage=
+
+        if "!commitMessage!"=="" (
+            echo Commit message cannot be empty.
+            exit /b 1
+        )
+
+        echo Staging and committing changes...
+        git add .
+        if %ERRORLEVEL% neq 0 (
+            echo Failed to stage changes.
+            exit /b %ERRORLEVEL%
+        )
+
+        git commit -m "!commitMessage!"
+        if %ERRORLEVEL% neq 0 (
+            echo Commit failed.
+            exit /b %ERRORLEVEL%
+        )
+        
+        echo Changes committed successfully!
+    ) else (
+        echo Changes not staged and committed.
+    )
+) else (
+    echo No changes to commit.
+)
+
+exit /b 0
 
 :: Conflict resolution function
 :resolve_conflicts
@@ -100,5 +155,26 @@ if %ERRORLEVEL% neq 0 (
 echo Push completed successfully.
 exit /b 0
 
+:advanced_pull
+echo Pulling changes from GitHub...
+git pull origin main
+if %ERRORLEVEL% neq 0 (
+    echo Pull failed. Resolve any conflicts manually.
+    exit /b %ERRORLEVEL%
+)
+echo Pull successful!
+exit /b 0
+
 :: Main script execution
-call :advanced_push
+if "%1"=="push" (
+    call :advanced_push
+) else if "%1"=="pull" (
+    call :advanced_pull
+) else if "%1"=="status" (
+    call :show_status
+) else (
+    echo Invalid option. Use "push", "pull", or "status".
+    exit /b 1
+)
+
+exit /b 0
