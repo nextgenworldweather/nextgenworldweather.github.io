@@ -1,8 +1,8 @@
 @echo off
 :: Git Operations Helper Script for nextgenworldweather.github.io Repository
-:: Version 3.1.0
+:: Version 3.1.1
 
-:: Configurations
+:: Configuration
 setlocal enabledelayedexpansion
 set repoURL=https://github.com/nextgenworldweather/nextgenworldweather.github.io.git
 set branchName=main
@@ -73,22 +73,44 @@ if %ERRORLEVEL% neq 0 (
 )
 echo Changes committed successfully.
 
-:: Push committed changes
-set /p push_choice="Would you like to push changes to %repoURL%? (y/n): "
-if /i "%push_choice%"=="y" (
-    git push origin %branchName%
-    if %ERRORLEVEL% neq 0 (
-        echo Error: Push operation failed. Attempting to resolve...
-        git pull --rebase origin %branchName%
-        if %ERRORLEVEL% neq 0 (
-            echo Error: Pull and rebase failed. Resolve conflicts manually.
-            exit /b 1
-        )
+:: Check if branch is up to date with remote before pushing
+git fetch origin %branchName%
+git status | findstr /i "up to date"
+if %ERRORLEVEL% == 0 (
+    echo Branch is already up to date with %repoURL%.
+    set /p push_choice="No changes to push. Would you still like to push any changes (if applicable)? (y/n): "
+    if /i "%push_choice%"=="y" (
         git push origin %branchName%
+        if %ERRORLEVEL% neq 0 (
+            echo Error: Push operation failed. Attempting to resolve...
+            git pull --rebase origin %branchName%
+            if %ERRORLEVEL% neq 0 (
+                echo Error: Pull and rebase failed. Resolve conflicts manually.
+                exit /b 1
+            )
+            git push origin %branchName%
+        )
+        echo Success: Changes pushed to %repoURL%.
+    ) else (
+        echo Push operation cancelled by user.
     )
-    echo Success: Changes pushed to %repoURL%.
 ) else (
-    echo Push operation cancelled by user.
+    set /p push_choice="Would you like to push changes to %repoURL%? (y/n): "
+    if /i "%push_choice%"=="y" (
+        git push origin %branchName%
+        if %ERRORLEVEL% neq 0 (
+            echo Error: Push operation failed. Attempting to resolve...
+            git pull --rebase origin %branchName%
+            if %ERRORLEVEL% neq 0 (
+                echo Error: Pull and rebase failed. Resolve conflicts manually.
+                exit /b 1
+            )
+            git push origin %branchName%
+        )
+        echo Success: Changes pushed to %repoURL%.
+    ) else (
+        echo Push operation cancelled by user.
+    )
 )
 
 exit /b 0
@@ -126,13 +148,21 @@ for /f "tokens=*" %%G in ('git status -s') do (
     call :process_changes "%%G"
 )
 
-:: Proceed to pull changes
-git pull origin %branchName%
-if %ERRORLEVEL% neq 0 (
-    echo Error: Pull operation failed. Resolve conflicts manually if present.
-    exit /b %ERRORLEVEL%
+:: Check if branch is up to date with remote before pulling
+git fetch origin %branchName%
+git status | findstr /i "up to date"
+if %ERRORLEVEL% == 0 (
+    echo Branch is already up to date with %repoURL%.
+    echo No changes to pull.
+) else (
+    echo Pulling changes from %repoURL%...
+    git pull origin %branchName%
+    if %ERRORLEVEL% neq 0 (
+        echo Error: Pull operation failed. Resolve conflicts manually if present.
+        exit /b %ERRORLEVEL%
+    )
+    echo Success: Pull operation completed successfully.
 )
-echo Success: Pull operation completed successfully.
 exit /b 0
 
 :: Function to push changes
