@@ -1,6 +1,6 @@
 @echo off
 :: Git Operations Helper Script
-:: Version 2.0.0
+:: Version 2.1.0
 
 :: Configuration
 setlocal enabledelayedexpansion
@@ -38,8 +38,10 @@ if %ERRORLEVEL% neq 0 (
 )
 
 :: Get the output of `git status -s`
+set "changes="
 for /f "tokens=* delims=" %%A in ('git status -s') do (
-    set "changes=%%A"
+    set "changes=1"
+    echo %%A
 )
 
 if not defined changes (
@@ -47,8 +49,7 @@ if not defined changes (
     exit /b 0
 )
 
-echo Changes detected:
-git status -s
+echo Changes detected above.
 exit /b 0
 
 :: Function to check for changes and push
@@ -61,17 +62,16 @@ if %ERRORLEVEL% neq 0 (
 )
 
 :: Get the output of `git status -s`
+set "changes="
 for /f "tokens=* delims=" %%A in ('git status -s') do (
-    set "changes=%%A"
+    set "changes=1"
+    echo %%A
 )
 
 if not defined changes (
     echo No changes detected. Aborting push operation.
     exit /b 0
 )
-
-echo Changes detected:
-git status -s
 
 :: Prompt for commit message
 echo Enter commit message:
@@ -82,6 +82,7 @@ if "%commitMessage%"=="" (
 )
 
 :: Stage and commit changes
+echo Staging and committing changes...
 git add . >nul 2>&1
 if %ERRORLEVEL% neq 0 (
     echo Error: Failed to stage files.
@@ -98,15 +99,16 @@ if %ERRORLEVEL% neq 0 (
 echo Pushing changes to %repoURL%...
 git push origin %branchName% >nul 2>&1
 if %ERRORLEVEL% neq 0 (
-    echo Error: Push operation failed. Attempting to resolve...
+    echo Error: Push operation failed. Checking for upstream changes...
     git pull --rebase origin %branchName% >nul 2>&1
     if %ERRORLEVEL% neq 0 (
-        echo Error: Pull and rebase failed. Resolve conflicts manually.
+        echo Error: Pull and rebase failed. Please resolve conflicts manually.
         exit /b 1
     )
+    echo Pull and rebase successful. Retrying push...
     git push origin %branchName% >nul 2>&1
     if %ERRORLEVEL% neq 0 (
-        echo Error: Push operation still failed. Aborting.
+        echo Error: Push operation still failed. Please resolve manually.
         exit /b 1
     )
 )
@@ -123,7 +125,7 @@ if %ERRORLEVEL% neq 0 (
     exit /b 1
 )
 
-:: Check for differences between local and remote
+:: Check if local branch is behind remote
 git status | findstr "Your branch is behind" >nul 2>&1
 if %ERRORLEVEL% neq 0 (
     echo Local branch is up to date. No pull required.
