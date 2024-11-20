@@ -2,7 +2,7 @@
 :: Git Operations Helper Script for nextgenworldweather.github.io Repository
 :: Version 3.1.0
 
-:: Configuration
+:: Configurations
 setlocal enabledelayedexpansion
 set repoURL=https://github.com/nextgenworldweather/nextgenworldweather.github.io.git
 set branchName=main
