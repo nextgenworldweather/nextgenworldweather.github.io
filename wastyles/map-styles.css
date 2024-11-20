@@ -39,6 +39,12 @@ body {
     top: 10rem; 
 }
 
+.leaflet-marker-icon.leaflet-interactive, .leaflet-image-layer.leaflet-interactive, .leaflet-pane > svg path.leaflet-interactive, svg.leaflet-image-layer.leaflet-interactive path {
+    pointer-events: visiblePainted;
+    pointer-events: auto;
+    fill: transparent;
+}
+
 /* Leaflet Map Customizations */
 .leaflet-pane.leaflet-map-pane {
     border: none;
