@@ -1,6 +1,6 @@
 #!/bin/bash
 # Enhanced Git push script with advanced conflict resolution
-# Version 2.1.1
+# Version 2.1.2
 
 # Color codes
 RED='\033[0;31m'
