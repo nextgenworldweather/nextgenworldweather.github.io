@@ -1,6 +1,6 @@
 @echo off
 :: Git Operations Helper Script for nextgenworldweather.github.io Repository
-:: Version 3.1.0
+:: Version 3.1.1
 
 :: Configuration
 setlocal enabledelayedexpansion
