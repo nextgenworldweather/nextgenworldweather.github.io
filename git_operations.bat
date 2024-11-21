@@ -1,11 +1,12 @@
 @echo off
-:: Git Operations Helper Script - Streamlined Version
-:: Version 3.4.5
+:: Git Operations Helper Script with Logging
+:: Version 3.5.0
 
 :: Configuration
 setlocal enabledelayedexpansion
 set "repoURL=https://github.com/nextgenworldweather/nextgenworldweather.github.io.git"
 set "branchName=main"
+set "logFile=%~dp0git_operations.log"
 
 :: Main Execution
 if "%1"=="" (
@@ -27,9 +28,12 @@ exit /b 1
 
 :status
 echo Checking repository status...
+echo [%date% %time%] Checking repository status >> "%logFile%"
+
 git status --short
 if %ERRORLEVEL% neq 0 (
     echo Error: Failed to retrieve repository status.
+    echo [%date% %time%] ERROR: Failed to retrieve repository status >> "%logFile%"
     exit /b %ERRORLEVEL%
 )
 
@@ -42,6 +46,7 @@ for /f "tokens=*" %%a in ('git status --short') do (
 
 if not defined changes_found (
     echo No changes detected in repository.
+    echo [%date% %time%] No changes detected in repository >> "%logFile%"
     exit /b 0
 )
 
@@ -51,23 +56,28 @@ if /i "%status_choice%"=="y" (
     call :show_changes
 ) else (
     echo Status check complete. No detailed view requested.
+    echo [%date% %time%] Status check complete. No detailed view requested >> "%logFile%"
 )
 exit /b 0
 
 :push
 echo Checking for changes to push...
+echo [%date% %time%] Push operation started >> "%logFile%"
+
 git status --short
 set "changes_found="
 for /f "tokens=*" %%a in ('git status --short') do set "changes_found=1"
 
 if not defined changes_found (
     echo No changes to push.
+    echo [%date% %time%] No changes to push >> "%logFile%"
     exit /b 0
 )
 
 set /p "commit_msg=Enter commit message: "
 if "%commit_msg%"=="" (
     echo Error: Commit message cannot be empty.
+    echo [%date% %time%] ERROR: Commit message cannot be empty >> "%logFile%"
     exit /b 1
 )
 
@@ -86,14 +96,18 @@ if %ERRORLEVEL% neq 0 (
 )
 
 echo Push completed successfully.
+echo [%date% %time%] Push completed successfully >> "%logFile%"
 exit /b 0
 
 :pull
 echo Checking for remote changes...
+echo [%date% %time%] Pull operation started >> "%logFile%"
+
 git fetch origin
 git status -uno | findstr /C:"Your branch is up to date" >nul
 if %ERRORLEVEL% equ 0 (
     echo Repository is already up to date.
+    echo [%date% %time%] Repository is already up to date >> "%logFile%"
     exit /b 0
 )
 
@@ -101,23 +115,30 @@ echo Pulling latest changes...
 git pull origin %branchName%
 if %ERRORLEVEL% neq 0 (
     echo Pull completed successfully.
+    echo [%date% %time%] Pull completed successfully >> "%logFile%"
 ) else (
     echo Error: Pull failed. Please resolve conflicts manually.
+    echo [%date% %time%] ERROR: Pull failed. Please resolve conflicts manually >> "%logFile%"
 )
 exit /b %ERRORLEVEL%
 
 :sync
 echo Starting repository synchronization...
+echo [%date% %time%] Sync operation started >> "%logFile%"
+
 call :pull_changes
 if %ERRORLEVEL% equ 0 call :push_changes
 echo Sync operation completed.
+echo [%date% %time%] Sync operation completed >> "%logFile%"
 exit /b 0
 
 :show_changes
 echo Showing detailed changes...
+echo [%date% %time%] Showing detailed changes >> "%logFile%"
 git diff --name-status
 if %ERRORLEVEL% neq 0 (
     echo Error: Failed to retrieve changes.
+    echo [%date% %time%] ERROR: Failed to retrieve changes >> "%logFile%"
     exit /b %ERRORLEVEL%
 )
 echo.
@@ -126,18 +147,22 @@ echo Showing content differences for modified files...
 git diff
 if %ERRORLEVEL% neq 0 (
     echo Error: Failed to retrieve content differences.
+    echo [%date% %time%] ERROR: Failed to retrieve content differences >> "%logFile%"
     exit /b %ERRORLEVEL%
 )
 echo Detailed changes displayed successfully.
+echo [%date% %time%] Detailed changes displayed successfully >> "%logFile%"
 exit /b 0
 
 :pull_changes
 echo Pulling latest changes...
+echo [%date% %time%] Pulling latest changes >> "%logFile%"
 git pull origin %branchName%
 exit /b %ERRORLEVEL%
 
 :push_changes
 echo Checking for local changes...
+echo [%date% %time%] Checking for local changes >> "%logFile%"
 git status --short
 set "changes_found="
 for /f "tokens=*" %%a in ('git status --short') do set "changes_found=1"
