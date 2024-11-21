@@ -1,6 +1,6 @@
 @echo off
 :: Git Operations Helper Script with Progress Indicators
-:: Version 3.8.0
+:: Version 3.9.0
 
 :: Configuration
 setlocal enabledelayedexpansion
@@ -35,12 +35,11 @@ exit /b 1
 :: Simulated progress indicator
 :show_progress
 setlocal
-set "delay=0.2"
 set "chars=. .. ..."
-for /l %%i in (1,1,10) do (
+for /l %%i in (1,1,3) do (
     for %%c in (%chars%) do (
         <nul set /p "=%%c" > CON
-        timeout /t %delay% >nul
+        ping -n 2 127.0.0.1 >nul
     )
 )
 exit /b
