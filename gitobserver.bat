@@ -1,6 +1,6 @@
 @echo off
-:: Git Operations Helper Script with External Logging  
-:: Version 3.6.0
+:: Git Operations Helper Script with Progress Indicators
+:: Version 3.8.0
 
 :: Configuration
 setlocal enabledelayedexpansion
@@ -12,27 +12,15 @@ set "logFile=%logDir%\git_operations.log"
 :: Ensure log directory exists
 if not exist "%logDir%" (
     mkdir "%logDir%"
-    if %ERRORLEVEL% neq 0 (
-        set "logDir=%TEMP%"
-        echo Log directory not found. Using %TEMP%: %logDir%.
-    )
-)
-
-:: Check for Git installation
-git --version >nul 2>&1
-if %ERRORLEVEL% neq 0 (
-    echo Error: Git is not installed or not in the system PATH.
-    echo [%date% %time%] ERROR: Git is missing or not in PATH >> "%logFile%"
-    exit /b 1
 )
 
 :: Main Execution
 if "%1"=="" (
     echo Usage:
-    echo   git_operations.bat status - Check repository status
-    echo   git_operations.bat push   - Push changes to remote
-    echo   git_operations.bat pull   - Pull changes from remote
-    echo   git_operations.bat sync   - Synchronize with remote
+    echo   gitobserver.bat status - Check repository status
+    echo   gitobserver.bat push   - Push changes to remote
+    echo   gitobserver.bat pull   - Pull changes from remote
+    echo   gitobserver.bat sync   - Synchronize with remote
     exit /b 1
 )
 
@@ -44,14 +32,24 @@ if "%1"=="sync" goto :sync
 echo Error: Invalid command. Use status, push, pull, or sync.
 exit /b 1
 
+:: Simulated progress indicator
+:show_progress
+setlocal
+set "delay=0.2"
+set "chars=. .. ..."
+for /l %%i in (1,1,10) do (
+    for %%c in (%chars%) do (
+        <nul set /p "=%%c" > CON
+        timeout /t %delay% >nul
+    )
+)
+exit /b
+
 :status
 echo Checking repository status...
-echo [%date% %time%] Status operation started >> "%logFile%"
-
-git status --short >nul
+git status --short
 if %ERRORLEVEL% neq 0 (
     echo Error: Failed to retrieve repository status.
-    echo [%date% %time%] ERROR: Failed to retrieve status >> "%logFile%"
     exit /b %ERRORLEVEL%
 )
 
@@ -64,7 +62,6 @@ for /f "tokens=*" %%a in ('git status --short') do (
 
 if not defined changes_found (
     echo No changes detected in repository.
-    echo [%date% %time%] No changes detected >> "%logFile%"
     exit /b 0
 )
 
@@ -81,6 +78,7 @@ exit /b 0
 echo Checking for changes to push...
 echo [%date% %time%] Push operation started >> "%logFile%"
 
+git status --short
 set "changes_found="
 for /f "tokens=*" %%a in ('git status --short') do set "changes_found=1"
 
@@ -90,36 +88,26 @@ if not defined changes_found (
     exit /b 0
 )
 
-:get_commit_message
 set /p "commit_msg=Enter commit message: "
 if "%commit_msg%"=="" (
-    echo Commit message cannot be empty. Please try again.
-    goto :get_commit_message
+    echo Error: Commit message cannot be empty.
+    echo [%date% %time%] ERROR: Commit message cannot be empty >> "%logFile%"
+    exit /b 1
 )
 
 echo Staging changes...
-git add . >nul
-if %ERRORLEVEL% neq 0 (
-    echo Error: Failed to stage changes.
-    echo [%date% %time%] ERROR: Staging failed >> "%logFile%"
-    exit /b %ERRORLEVEL%
-)
+git add .
 
 echo Committing changes...
-git commit -m "%commit_msg%" >nul
-if %ERRORLEVEL% neq 0 (
-    echo Error: Commit failed.
-    echo [%date% %time%] ERROR: Commit failed >> "%logFile%"
-    exit /b %ERRORLEVEL%
-)
+git commit -m "%commit_msg%"
 
 echo Pushing to remote...
-git push origin %branchName% >nul
+call :show_progress
+git push origin %branchName%
 if %ERRORLEVEL% neq 0 (
     echo Push failed. Attempting to pull and rebase...
-    echo [%date% %time%] Push failed. Attempting pull and rebase >> "%logFile%"
-    git pull --rebase origin %branchName% >nul
-    git push origin %branchName% >nul
+    git pull --rebase origin %branchName%
+    git push origin %branchName%
 )
 
 echo Push completed successfully.
@@ -130,13 +118,7 @@ exit /b 0
 echo Checking for remote changes...
 echo [%date% %time%] Pull operation started >> "%logFile%"
 
-git fetch origin >nul
-if %ERRORLEVEL% neq 0 (
-    echo Error: Failed to fetch changes from remote.
-    echo [%date% %time%] ERROR: Fetch failed >> "%logFile%"
-    exit /b %ERRORLEVEL%
-)
-
+git fetch origin
 git status -uno | findstr /C:"Your branch is up to date" >nul
 if %ERRORLEVEL% equ 0 (
     echo Repository is already up to date.
@@ -145,39 +127,25 @@ if %ERRORLEVEL% equ 0 (
 )
 
 echo Pulling latest changes...
-git pull origin %branchName% >nul
+call :show_progress
+git pull origin %branchName%
 if %ERRORLEVEL% neq 0 (
-    echo Merge conflict detected. Attempting to resolve...
-    echo [%date% %time%] Merge conflict detected >> "%logFile%"
-    git mergetool >nul
-    git commit -m "Merge conflict resolved manually" >nul
-    git push origin %branchName% >nul
+    echo Pull completed successfully.
+    echo [%date% %time%] Pull completed successfully >> "%logFile%"
+) else (
+    echo Error: Pull failed. Please resolve conflicts manually.
+    echo [%date% %time%] ERROR: Pull failed. Please resolve conflicts manually >> "%logFile%"
 )
-
-echo Pull completed successfully.
-echo [%date% %time%] Pull completed successfully >> "%logFile%"
-exit /b 0
+exit /b %ERRORLEVEL%
 
 :sync
 echo Starting repository synchronization...
 echo [%date% %time%] Sync operation started >> "%logFile%"
 
-call :pull
-if %ERRORLEVEL% neq 0 (
-    echo Sync failed during pull. Check log for details.
-    echo [%date% %time%] Sync failed during pull >> "%logFile%"
-    exit /b %ERRORLEVEL%
-)
-
-call :push
-if %ERRORLEVEL% neq 0 (
-    echo Sync failed during push. Check log for details.
-    echo [%date% %time%] Sync failed during push >> "%logFile%"
-    exit /b %ERRORLEVEL%
-)
-
-echo Sync operation completed successfully.
-echo [%date% %time%] Sync operation completed successfully >> "%logFile%"
+call :pull_changes
+if %ERRORLEVEL% equ 0 call :push_changes
+echo Sync operation completed.
+echo [%date% %time%] Sync operation completed >> "%logFile%"
 exit /b 0
 
 :show_changes
@@ -189,6 +157,7 @@ if %ERRORLEVEL% neq 0 (
     echo [%date% %time%] ERROR: Failed to retrieve changes >> "%logFile%"
     exit /b %ERRORLEVEL%
 )
+echo.
 
 echo Showing content differences for modified files...
 git diff
@@ -197,7 +166,31 @@ if %ERRORLEVEL% neq 0 (
     echo [%date% %time%] ERROR: Failed to retrieve content differences >> "%logFile%"
     exit /b %ERRORLEVEL%
 )
-
 echo Detailed changes displayed successfully.
 echo [%date% %time%] Detailed changes displayed successfully >> "%logFile%"
+exit /b 0
+
+:pull_changes
+echo Pulling latest changes...
+echo [%date% %time%] Pulling latest changes >> "%logFile%"
+call :show_progress
+git pull origin %branchName%
+exit /b %ERRORLEVEL%
+
+:push_changes
+echo Checking for local changes...
+echo [%date% %time%] Checking for local changes >> "%logFile%"
+git status --short
+set "changes_found="
+for /f "tokens=*" %%a in ('git status --short') do set "changes_found=1"
+
+if defined changes_found (
+    set /p "commit_msg=Enter commit message: "
+    if "%commit_msg%"=="" exit /b 1
+
+    git add .
+    git commit -m "%commit_msg%"
+    call :show_progress
+    git push origin %branchName%
+)
 exit /b 0
