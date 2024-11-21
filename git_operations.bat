@@ -1,6 +1,6 @@
 @echo off
-:: Git Operations Helper Script with Logging
-:: Version 3.5.0
+:: Git Operations Helper Script with Selective Logging
+:: Version 3.5.1
 
 :: Configuration
 setlocal enabledelayedexpansion
@@ -28,12 +28,9 @@ exit /b 1
 
 :status
 echo Checking repository status...
-echo [%date% %time%] Checking repository status >> "%logFile%"
-
 git status --short
 if %ERRORLEVEL% neq 0 (
     echo Error: Failed to retrieve repository status.
-    echo [%date% %time%] ERROR: Failed to retrieve repository status >> "%logFile%"
     exit /b %ERRORLEVEL%
 )
 
@@ -46,7 +43,6 @@ for /f "tokens=*" %%a in ('git status --short') do (
 
 if not defined changes_found (
     echo No changes detected in repository.
-    echo [%date% %time%] No changes detected in repository >> "%logFile%"
     exit /b 0
 )
 
@@ -56,7 +52,6 @@ if /i "%status_choice%"=="y" (
     call :show_changes
 ) else (
     echo Status check complete. No detailed view requested.
-    echo [%date% %time%] Status check complete. No detailed view requested >> "%logFile%"
 )
 exit /b 0
 
