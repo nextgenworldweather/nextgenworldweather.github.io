@@ -1,6 +1,6 @@
 @echo off
 :: Git Operations Helper Script with Progress Indicators
-:: Version 3.9.0
+:: Version 3.9.1
 
 :: Configuration
 setlocal enabledelayedexpansion
