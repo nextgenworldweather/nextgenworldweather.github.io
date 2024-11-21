@@ -8,11 +8,10 @@
     <meta name="author" content="Peter Nunekpeku">
     <title>Eastwind Consult - Professional Weather Forecasting</title>
 
-    <!-- Open Graph Meta Tags for better social media sharing -->
     <meta property="og:title" content="Eastwind Consult - Professional Weather Forecasting">
     <meta property="og:description" content="Get real-time weather forecasting for Australia, China, India, and West Africa updated every 15 minutes">
-    <meta property="og:image" content="path/to/your/image.jpg">
-    <meta property="og:url" content="https://eastwindconsult.com">
+    <meta property="og:image" content="/images/eastwindconsult.png">
+    <meta property="og:url" content="https://nextgenworldweather.github.io">
     <meta property="og:type" content="website">
 
     <!-- Preload and Performance Optimization -->
@@ -35,15 +34,9 @@
     }
     </script>
 
-    <!-- Link to external stylesheets and scripts -->
-    <!-- For faster rendering of the page, consider adding these external stylesheets and scripts -->
-    <!-- <link rel="stylesheet" href="path-to-external-stylesheet.css"> -->
-
     <style>
-        /* Custom styles (already defined in your original code) */
 
         :root {
-        /* Enhanced Color Palette */
         --red: #e74c3c;
         --yellow: #f1c40f;
         --blue: #3498db;
@@ -61,14 +54,12 @@
         --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
-        /* Base Reset and Optimization */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Improved Font Loading */
         @font-face {
             font-family: 'ArialOptimized';
             src: local('Arial'), local('Arial-Regular');
@@ -85,7 +76,6 @@
             flex-direction: column;
         }
 
-        /* Reduce Motion Handling */
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation: none !important;
@@ -93,7 +83,6 @@
             }
         }
 
-        /* Header Styles */
         .header {
             background: linear-gradient(45deg, var(--red), var(--yellow), var(--blue), var(--green));
             color: white;
@@ -121,7 +110,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        /* Main Content */
         .main-content {
             flex-grow: 1;
             max-width: 1200px;
@@ -130,7 +118,6 @@
             padding: 0 1.5rem;
         }
 
-        /* Region Grid */
         .region-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -172,7 +159,6 @@
         border-bottom: 2px solid transparent;
     }
 
-     /* Region-specific title colors */
      .australia .region-title {
         color: var(--red);
         border-color: var(--red-light);
@@ -217,7 +203,6 @@
         transition: all 0.3s ease;
     }
 
-    /* Region-specific hover effects */
     .australia .forecast-links a:hover {
         background: var(--red-light);
         color: var(--red-dark);
@@ -242,13 +227,11 @@
         transform: translateX(10px);
     }
 
-    /* Show arrow on hover */
     .forecast-links a:hover::before {
         opacity: 1;
         transform: translateX(0);
     }
 
-    /* Dark mode adjustments */
     @media (prefers-color-scheme: dark) {
         .region-card {
             background: #2d2d2d;
@@ -303,7 +286,6 @@
             text-decoration: underline;
         }
 
-        /* Ensure better mobile responsiveness */
         @media (max-width: 768px) {
             .region-grid {
                 grid-template-columns: 1fr;
@@ -318,14 +300,12 @@
             }
         }
 
-        /* Base Reset and Optimization */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Dark Mode Adjustments */
         @media (prefers-color-scheme: dark) {
             body {
                 background: #1a1a1a;
@@ -347,11 +327,9 @@
         </div>
     </header>
 
-    <!-- Main Content Section -->
     <main class="main-content" role="main">
         <nav aria-label="Regional Forecasts">
             <div class="region-grid">
-                <!-- Australia Region -->
                 <div class="region-card australia" role="region" aria-labelledby="australia-title">
                     <h2 class="region-title" id="australia-title">Australia</h2>
                     <ul class="forecast-links" role="list">
@@ -362,7 +340,6 @@
                     </ul>
                 </div>
 
-                <!-- China Region -->
                 <div class="region-card china" role="region" aria-labelledby="china-title">
                     <h2 class="region-title" id="china-title">China</h2>
                     <ul class="forecast-links" role="list">
@@ -373,7 +350,6 @@
                     </ul>
                 </div>
 
-                <!-- India Region -->
                 <div class="region-card india" role="region" aria-labelledby="india-title">
                     <h2 class="region-title" id="india-title">India</h2>
                     <ul class="forecast-links" role="list">
@@ -384,7 +360,6 @@
                     </ul>
                 </div>
 
-                <!-- West Africa Region -->
                 <div class="region-card west-africa" role="region" aria-labelledby="west-africa-title">
                     <h2 class="region-title" id="west-africa-title">West Africa</h2>
                     <ul class="forecast-links" role="list">
