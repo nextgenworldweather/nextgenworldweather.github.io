@@ -1,91 +1,136 @@
-<!-- This is written by Peter Nunekpeku | pnunekpeku5@gmail.com | eastwindconsultintl@gmail.com -->        
-<!--  modified 2024-11-16 1752 UTC  -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Professional Weather Forecasting by Eastwind Consult - Providing 15-minute interval forecasts for Australia, China, India, and West Africa">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Peter Nunekpeku">
     <title>Eastwind Consult - Professional Weather Forecasting</title>
+
+    <!-- Open Graph Meta Tags for better social media sharing -->
+    <meta property="og:title" content="Eastwind Consult - Professional Weather Forecasting">
+    <meta property="og:description" content="Get real-time weather forecasting for Australia, China, India, and West Africa updated every 15 minutes">
+    <meta property="og:image" content="path/to/your/image.jpg">
+    <meta property="og:url" content="https://eastwindconsult.com">
+    <meta property="og:type" content="website">
+
+    <!-- Preload and Performance Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preload" href="styles.css" as="style">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WeatherService",
+        "name": "Eastwind Consult",
+        "description": "Professional Weather Forecasting for Australia, China, India, and West Africa",
+        "url": "https://eastwindconsult.com",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "eastwindconsultintl@gmail.com",
+            "contactType": "Customer Service"
+        }
+    }
+    </script>
+
+    <!-- Link to external stylesheets and scripts -->
+    <!-- For faster rendering of the page, consider adding these external stylesheets and scripts -->
+    <!-- <link rel="stylesheet" href="path-to-external-stylesheet.css"> -->
+
     <style>
+        /* Custom styles (already defined in your original code) */
+
         :root {
-            --red: #e74c3c;
-            --yellow: #f1c40f;
-            --blue: #3498db;
-            --green: #2ecc71;
-            --red-dark: #c0392b;
-            --yellow-dark: #f39c12;
-            --blue-dark: #2980b9;
-            --green-dark: #27ae60;
-            --background: #f5f7fa;
-            --text: #2d3436;
-            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        /* Enhanced Color Palette */
+        --red: #e74c3c;
+        --yellow: #f1c40f;
+        --blue: #3498db;
+        --green: #2ecc71;
+        --red-dark: #c0392b;
+        --yellow-dark: #f39c12;
+        --blue-dark: #2980b9;
+        --green-dark: #27ae60;
+        --red-light: rgba(231, 76, 60, 0.1);
+        --yellow-light: rgba(241, 196, 15, 0.1);
+        --blue-light: rgba(52, 152, 219, 0.1);
+        --green-light: rgba(46, 204, 113, 0.1);
+        --background: #f5f7fa;
+        --text: #2d3436;
+        --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+        /* Base Reset and Optimization */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Improved Font Loading */
+        @font-face {
+            font-family: 'ArialOptimized';
+            src: local('Arial'), local('Arial-Regular');
+            font-display: swap;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'ArialOptimized', 'Arial', sans-serif;
+            line-height: 1.6;
             background: var(--background);
-            min-height: 100vh;
             color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        
+
+        /* Reduce Motion Handling */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Header Styles */
         .header {
             background: linear-gradient(45deg, var(--red), var(--yellow), var(--blue), var(--green));
             color: white;
             padding: 2.5rem 2rem;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1) 75%, transparent 75%, transparent);
-            background-size: 3rem 3rem;
-            animation: moveStripes 30s linear infinite;
-        }
-
-        @keyframes moveStripes {
-            0% { background-position: 0 0; }
-            100% { background-position: 50rem 50rem; }
+        .header-content {
+            position: relative;
+            z-index: 2;
         }
 
         .company-name {
             font-size: 2.8rem;
             margin-bottom: 0.5rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            position: relative;
         }
 
         .subtitle {
             font-size: 1.3rem;
             opacity: 0.95;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-            position: relative;
         }
 
-        .update-info {
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            opacity: 0.9;
-            position: relative;
-        }
-
+        /* Main Content */
         .main-content {
+            flex-grow: 1;
             max-width: 1200px;
+            width: 100%;
             margin: 2rem auto;
             padding: 0 1.5rem;
         }
 
+        /* Region Grid */
         .region-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -94,140 +139,176 @@
         }
 
         .region-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.8rem;
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        background: white;
+        border-radius: 15px;
+        padding: 1.8rem;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border-top: 5px solid transparent;
+    }
+
+    .region-card.australia {
+        border-color: var(--red);
+    }
+
+    .region-card.china {
+        border-color: var(--yellow);
+    }
+
+    .region-card.india {
+        border-color: var(--blue);
+    }
+
+    .region-card.west-africa {
+        border-color: var(--green);
+    }
+
+    .region-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 2px solid transparent;
+    }
+
+     /* Region-specific title colors */
+     .australia .region-title {
+        color: var(--red);
+        border-color: var(--red-light);
+    }
+
+    .china .region-title {
+        color: var(--yellow-dark);
+        border-color: var(--yellow-light);
+    }
+
+    .india .region-title {
+        color: var(--blue);
+        border-color: var(--blue-light);
+    }
+
+    .west-africa .region-title {
+        color: var(--green);
+        border-color: var(--green-light);
+    }
+
+    .forecast-links {
+        list-style: none;
+    }
+
+    .forecast-links a {
+        display: flex;
+        align-items: center;
+        padding: 0.8rem 1rem;
+        text-decoration: none;
+        color: var(--text);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        position: relative;
+        background: rgba(0,0,0,0.02);
+    }
+
+    .forecast-links a::before {
+        content: '→';
+        margin-right: 0.8rem;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s ease;
+    }
+
+    /* Region-specific hover effects */
+    .australia .forecast-links a:hover {
+        background: var(--red-light);
+        color: var(--red-dark);
+        transform: translateX(10px);
+    }
+
+    .china .forecast-links a:hover {
+        background: var(--yellow-light);
+        color: var(--yellow-dark);
+        transform: translateX(10px);
+    }
+
+    .india .forecast-links a:hover {
+        background: var(--blue-light);
+        color: var(--blue-dark);
+        transform: translateX(10px);
+    }
+
+    .west-africa .forecast-links a:hover {
+        background: var(--green-light);
+        color: var(--green-dark);
+        transform: translateX(10px);
+    }
+
+    /* Show arrow on hover */
+    .forecast-links a:hover::before {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Dark mode adjustments */
+    @media (prefers-color-scheme: dark) {
+        .region-card {
+            background: #2d2d2d;
         }
-
-        .region-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-        }
-
-        .region-card:nth-child(1)::before { background: var(--red); }
-        .region-card:nth-child(2)::before { background: var(--yellow); }
-        .region-card:nth-child(3)::before { background: var(--blue); }
-        .region-card:nth-child(4)::before { background: var(--green); }
-
-        .region-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        .region-title {
-            font-size: 1.6rem;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.8rem;
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .region-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: currentColor;
-            opacity: 0.3;
-        }
-
-        .forecast-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .forecast-links li:not(:last-child) {
-            margin-bottom: 0.5rem;
-        }
-
+        
         .forecast-links a {
-            color: var(--text);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            background: rgba(0,0,0,0.02);
+                color: #f0f0f0;
         }
 
-        .forecast-links a::before {
-            content: '→';
-            margin-right: 0.8rem;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.2s ease;
+        .australia .forecast-links a:hover {
+            background: rgba(231, 76, 60, 0.2);
         }
 
-        .forecast-links a:hover::before {
-            opacity: 1;
-            transform: translateX(0);
+        .china .forecast-links a:hover {
+            background: rgba(241, 196, 15, 0.2);
         }
 
-        .region-card:nth-child(1) .forecast-links a:hover {
-            background: rgba(231, 76, 60, 0.1);
-            color: var(--red-dark);
+        .india .forecast-links a:hover {
+            background: rgba(52, 152, 219, 0.2);
         }
 
-        .region-card:nth-child(2) .forecast-links a:hover {
-            background: rgba(241, 196, 15, 0.1);
-            color: var(--yellow-dark);
+        .west-africa .forecast-links a:hover {
+            background: rgba(46, 204, 113, 0.2);
+        }
+    }
+
+        .forecast-links a:hover {
+            background: rgba(0,0,0,0.05);
+            transform: translateX(10px);
         }
 
-        .region-card:nth-child(3) .forecast-links a:hover {
-            background: rgba(52, 152, 219, 0.1);
-            color: var(--blue-dark);
-        }
-
-        .region-card:nth-child(4) .forecast-links a:hover {
-            background: rgba(46, 204, 113, 0.1);
-            color: var(--green-dark);
-        }
-
+        /* Footer */
         .footer {
-            text-align: center;
-            padding: 2rem;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 3rem;
             background: rgba(0,0,0,0.02);
+            padding: 2rem;
+            text-align: center;
+            margin-top: auto;
         }
 
-        .contact {
+        .contact-links {
             margin-top: 1rem;
         }
 
-        .contact a {
-            color: inherit;
+        .contact-links a {
+            margin: 0 0.5rem;
+            color: var(--blue-contrast);
             text-decoration: none;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            transition: background 0.2s ease;
+            transition: color 0.2s ease;
         }
 
-        .contact a:hover {
-            background: rgba(0,0,0,0.05);
+        .contact-links a:hover {
+            text-decoration: underline;
         }
 
+        /* Ensure better mobile responsiveness */
         @media (max-width: 768px) {
             .region-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
             }
-            
+
             .company-name {
                 font-size: 2.2rem;
             }
@@ -235,95 +316,94 @@
             .subtitle {
                 font-size: 1.1rem;
             }
-
-            .header {
-                padding: 2rem 1rem;
-            }
-
-            .main-content {
-                padding: 0 1rem;
-            }
         }
 
+        /* Base Reset and Optimization */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Dark Mode Adjustments */
         @media (prefers-color-scheme: dark) {
-            :root {
-                --background: #1a1a1a;
-                --text: #ffffff;
-                --card-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            }
-
-            .region-card {
-                background: #2d2d2d;
-            }
-
-            .forecast-links a {
-                background: rgba(255,255,255,0.03);
+            body {
+                background: #1a1a1a;
+                color: #ffffff;
             }
 
             .footer {
-                background: rgba(255,255,255,0.03);
+                background: rgba(255,255,255,0.05);
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <h1 class="company-name">Eastwind Consult</h1>
-        <p class="subtitle">Professional Weather Forecasting</p>
-        <p class="update-info">Forecasts updated every 15 minutes</p>
+    <header class="header" role="banner">
+        <div class="header-content">
+            <h1 class="company-name">Eastwind Consult</h1>
+            <p class="subtitle">Professional Weather Forecasting</p>
+            <p class="update-info">Forecasts Updated Every 15 Minutes</p>
+        </div>
     </header>
 
-    <main class="main-content">
-        <div class="region-grid">
-            <div class="region-card">
-                <h2 class="region-title">Australia</h2>
-                <ul class="forecast-links">
-                    <li><a href="audbz.html">Reflectivity Forecast</a></li>
-                    <li><a href="auolr.html">Outgoing Long-wave Radiation</a></li>
-                    <li><a href="australia.html">Rainfall Forecast</a></li>
-                    <li><a href="autemp.html">Temperature Forecast</a></li>
-                </ul>
-            </div>
+    <!-- Main Content Section -->
+    <main class="main-content" role="main">
+        <nav aria-label="Regional Forecasts">
+            <div class="region-grid">
+                <!-- Australia Region -->
+                <div class="region-card australia" role="region" aria-labelledby="australia-title">
+                    <h2 class="region-title" id="australia-title">Australia</h2>
+                    <ul class="forecast-links" role="list">
+                        <li><a href="audbz.html" role="link">Reflectivity Forecast</a></li>
+                        <li><a href="auolr.html" role="link">Outgoing Long-wave Radiation</a></li>
+                        <li><a href="australia.html" role="link">Rainfall Forecast</a></li>
+                        <li><a href="autemp.html" role="link">Temperature Forecast</a></li>
+                    </ul>
+                </div>
 
-            <div class="region-card">
-                <h2 class="region-title">China</h2>
-                <ul class="forecast-links">
-                    <li><a href="cndbz.html">Reflectivity Forecast</a></li>
-                    <li><a href="cnolr.html">Outgoing Long-wave Radiation</a></li>
-                    <li><a href="china.html">Rainfall Forecast</a></li>
-                    <li><a href="cntemp.html">Temperature Forecast</a></li>
-                </ul>
-            </div>
+                <!-- China Region -->
+                <div class="region-card china" role="region" aria-labelledby="china-title">
+                    <h2 class="region-title" id="china-title">China</h2>
+                    <ul class="forecast-links" role="list">
+                        <li><a href="cndbz.html" role="link">Reflectivity Forecast</a></li>
+                        <li><a href="cnolr.html" role="link">Outgoing Long-wave Radiation</a></li>
+                        <li><a href="china.html" role="link">Rainfall Forecast</a></li>
+                        <li><a href="cntemp.html" role="link">Temperature Forecast</a></li>
+                    </ul>
+                </div>
 
-            <div class="region-card">
-                <h2 class="region-title">India</h2>
-                <ul class="forecast-links">
-                    <li><a href="indbz.html">Reflectivity Forecast</a></li>
-                    <li><a href="inolr.html">Outgoing Long-wave Radiation</a></li>
-                    <li><a href="india.html">Rainfall Forecast</a></li>
-                    <li><a href="intemp.html">Temperature Forecast</a></li>
-                </ul>
-            </div>
+                <!-- India Region -->
+                <div class="region-card india" role="region" aria-labelledby="india-title">
+                    <h2 class="region-title" id="india-title">India</h2>
+                    <ul class="forecast-links" role="list">
+                        <li><a href="indbz.html" role="link">Reflectivity Forecast</a></li>
+                        <li><a href="inolr.html" role="link">Outgoing Long-wave Radiation</a></li>
+                        <li><a href="india.html" role="link">Rainfall Forecast</a></li>
+                        <li><a href="intemp.html" role="link">Temperature Forecast</a></li>
+                    </ul>
+                </div>
 
-            <div class="region-card">
-                <h2 class="region-title">West Africa</h2>
-                <ul class="forecast-links">
-                    <li><a href="wadbz.html">Reflectivity Forecast</a></li>
-                    <li><a href="waolr.html">Outgoing Long-wave Radiation</a></li>
-                    <li><a href="westafrica.html">Rainfall Forecast</a></li>
-                    <li><a href="watemp.html">Temperature Forecast</a></li>
-                </ul>
+                <!-- West Africa Region -->
+                <div class="region-card west-africa" role="region" aria-labelledby="west-africa-title">
+                    <h2 class="region-title" id="west-africa-title">West Africa</h2>
+                    <ul class="forecast-links" role="list">
+                        <li><a href="wadbz.html" role="link">Reflectivity Forecast</a></li>
+                        <li><a href="waolr.html" role="link">Outgoing Long-wave Radiation</a></li>
+                        <li><a href="westafrica.html" role="link">Rainfall Forecast</a></li>
+                        <li><a href="watemp.html" role="link">Temperature Forecast</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </nav>
     </main>
 
-    <footer class="footer">
-        <div>© 2024 Eastwind Consult. Professional Weather Forecasting.</div>
-        <div class="contact">
-            <a href="mailto:eastwindconsultintl@gmail.com">eastwindconsultintl@gmail.com</a> |
-            <a href="mailto:pnunekpeku5@gmail.com">pnunekpeku5@gmail.com</a> |
-            <a href="https://web.facebook.com/eastwindconsult" target="_blank" rel="noopener">Facebook</a>
+    <footer class="footer" role="contentinfo">
+        <p>© 2024 Eastwind Consult. All Rights Reserved.</p>
+        <div class="contact-links">
+            <a href="mailto:eastwindconsultintl@gmail.com" aria-label="Email Eastwind Consult">Email</a>
+            <a href="https://facebook.com/eastwindconsult" target="_blank" aria-label="Eastwind Consult on Facebook">Facebook</a>
         </div>
-    </footer>
+    </footer>    
 </body>
 </html>
