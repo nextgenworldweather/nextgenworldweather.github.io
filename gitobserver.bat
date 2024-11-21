@@ -1,5 +1,5 @@
 @echo off
-:: Git Operations Helper Script with External Logging
+:: Git Operations Helper Script with External Logging  
 :: Version 3.6.0
 
 :: Configuration
