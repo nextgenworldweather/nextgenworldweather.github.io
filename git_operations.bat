@@ -1,12 +1,18 @@
 @echo off
-:: Git Operations Helper Script with Selective Logging
-:: Version 3.5.1
+:: Git Operations Helper Script with External Logging
+:: Version 3.5.2
 
 :: Configuration
 setlocal enabledelayedexpansion
 set "repoURL=https://github.com/nextgenworldweather/nextgenworldweather.github.io.git"
 set "branchName=main"
-set "logFile=%~dp0git_operations.log"
+set "logDir=C:\path\to\logs"
+set "logFile=%logDir%\git_operations.log"
+
+:: Ensure log directory exists
+if not exist "%logDir%" (
+    mkdir "%logDir%"
+)
 
 :: Main Execution
 if "%1"=="" (
